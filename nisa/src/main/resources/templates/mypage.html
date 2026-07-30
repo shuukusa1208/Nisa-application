@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>マイページ | NISA資産管理</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@500;700&family=Noto+Sans+JP:wght@400;500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/mypage.css">
+</head>
+<body>
+
+  <!-- ヘッダー -->
+  <header class="app-header">
+    <div class="brand-mark">つみたて<span>NISA</span></div>
+    <nav class="main-nav">
+      <a href="#">ダッシュボード</a>
+      <a href="#">資産一覧</a>
+      <a href="#">シミュレーション</a>
+      <a href="#" class="active">マイページ</a>
+    </nav>
+    <div class="header-right">
+      <div class="user-chip">
+        <div class="avatar">田</div>
+        <span class="user-name">田中 太郎</span>
+      </div>
+    </div>
+  </header>
+
+  <main class="page-body">
+    <div class="page-heading">
+      <h1>マイページ</h1>
+      <p class="sub">アカウント情報とNISA口座の状況を確認・編集できます</p>
+    </div>
+
+    <div class="grid">
+
+      <!-- 左カラム：プロフィールカード -->
+      <section class="card profile-card">
+        <div class="profile-top">
+          <div class="avatar-lg">田</div>
+          <div>
+            <div class="profile-name">田中 太郎</div>
+            <div class="profile-email">taro.tanaka@example.com</div>
+          </div>
+        </div>
+        <dl class="profile-meta">
+          <div class="meta-row">
+            <dt>登録日</dt>
+            <dd>2024年4月12日</dd>
+          </div>
+          <div class="meta-row">
+            <dt>証券会社</dt>
+            <dd>〇〇証券</dd>
+          </div>
+          <div class="meta-row">
+            <dt>NISA口座区分</dt>
+            <dd>成長投資枠 + つみたて投資枠</dd>
+          </div>
+        </dl>
+        <button class="btn-outline" type="button">プロフィール写真を変更</button>
+      </section>
+
+      <!-- 右カラム：NISA枠利用状況 + アカウント設定 -->
+      <div class="right-col">
+
+        <section class="card">
+          <h2 class="card-title">NISA枠の利用状況</h2>
+
+          <div class="quota-row">
+            <div class="quota-label">
+              <span class="dot dot-sage"></span>
+              つみたて投資枠
+            </div>
+            <div class="quota-bar">
+              <div class="quota-fill" style="width: 62%;"></div>
+            </div>
+            <div class="quota-value">¥744,000 <span class="quota-max">/ ¥1,200,000</span></div>
+          </div>
+
+          <div class="quota-row">
+            <div class="quota-label">
+              <span class="dot dot-gold"></span>
+              成長投資枠
+            </div>
+            <div class="quota-bar">
+              <div class="quota-fill quota-fill-gold" style="width: 38%;"></div>
+            </div>
+            <div class="quota-value">¥912,000 <span class="quota-max">/ ¥2,400,000</span></div>
+          </div>
+
+          <p class="quota-note">年間投資枠は毎年1月にリセットされます。生涯投資枠の残りは資産一覧ページでご確認いただけます。</p>
+        </section>
+
+        <section class="card">
+          <h2 class="card-title">アカウント設定</h2>
+
+          <form class="settings-form">
+            <div class="field">
+              <label for="name">氏名</label>
+              <input type="text" id="name" value="田中 太郎">
+            </div>
+
+            <div class="field">
+              <label for="email">メールアドレス</label>
+              <input type="email" id="email" value="taro.tanaka@example.com">
+            </div>
+
+            <div class="field">
+              <label for="broker">証券会社</label>
+              <select id="broker">
+                <option>〇〇証券</option>
+                <option>△△証券</option>
+                <option>□□証券</option>
+              </select>
+            </div>
+
+            <div class="form-actions">
+              <button type="submit" class="btn-primary">変更を保存</button>
+              <a href="#" class="link-muted">パスワードを変更する</a>
+            </div>
+          </form>
+        </section>
+
+        <section class="card card-danger">
+          <h2 class="card-title">アカウント管理</h2>
+          <p class="danger-desc">アカウントを削除すると、登録した資産データやシミュレーション履歴もすべて削除されます。この操作は取り消せません。</p>
+          <button class="btn-danger" type="button">アカウントを削除する</button>
+        </section>
+
+      </div>
+    </div>
+  </main>
+
+</body>
+</html>

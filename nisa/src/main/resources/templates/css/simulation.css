@@ -1,0 +1,312 @@
+:root {
+  --navy-950: #0B1220;
+  --navy-800: #16213A;
+  --navy-700: #1F2E4D;
+  --ivory-100: #F5F1E8;
+  --ivory-200: #EDE8DB;
+  --sage-500: #7A9E7E;
+  --sage-400: #8FB093;
+  --gold-400: #C9A661;
+  --danger-500: #B3543F;
+  --text-muted: #6B7280;
+  --text-dark: #24303F;
+  --border-soft: #E3DED0;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: 'Noto Sans JP', sans-serif;
+  background: var(--ivory-100);
+  color: var(--text-dark);
+  min-height: 100vh;
+}
+
+/* ---------- ヘッダー(共通デザイン) ---------- */
+.app-header {
+  display: flex;
+  align-items: center;
+  gap: 40px;
+  padding: 0 40px;
+  height: 68px;
+  background: var(--navy-950);
+  color: var(--ivory-100);
+}
+
+.brand-mark {
+  font-family: 'Noto Serif JP', serif;
+  font-weight: 700;
+  font-size: 18px;
+  letter-spacing: 0.06em;
+  white-space: nowrap;
+}
+
+.brand-mark span { color: var(--sage-400); }
+
+.main-nav {
+  display: flex;
+  gap: 28px;
+  flex: 1;
+}
+
+.main-nav a {
+  color: #C7CCDA;
+  text-decoration: none;
+  font-size: 14px;
+  font-weight: 500;
+  padding: 8px 0;
+  border-bottom: 2px solid transparent;
+  transition: color 0.15s ease, border-color 0.15s ease;
+}
+
+.main-nav a:hover { color: var(--ivory-100); }
+
+.main-nav a.active {
+  color: var(--ivory-100);
+  border-bottom-color: var(--sage-400);
+}
+
+.header-right { margin-left: auto; }
+
+.user-chip { display: flex; align-items: center; gap: 10px; }
+
+.avatar {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: var(--sage-500);
+  color: var(--ivory-100);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.user-name { font-size: 13px; color: var(--ivory-100); }
+
+/* ---------- ページ本体 ---------- */
+.page-body {
+  max-width: 1080px;
+  margin: 0 auto;
+  padding: 40px 40px 80px;
+}
+
+.page-heading { margin-bottom: 28px; }
+
+.page-heading h1 {
+  font-family: 'Noto Serif JP', serif;
+  font-size: 26px;
+  font-weight: 700;
+  margin-bottom: 6px;
+}
+
+.page-heading .sub { font-size: 13px; color: var(--text-muted); }
+
+.card {
+  background: #FFFFFF;
+  border: 1px solid var(--border-soft);
+  border-radius: 10px;
+  padding: 28px;
+}
+
+.card-title {
+  font-family: 'Noto Serif JP', serif;
+  font-size: 16px;
+  font-weight: 700;
+  margin-bottom: 20px;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: 380px 1fr;
+  gap: 24px;
+  align-items: start;
+}
+
+/* ---------- フォーム ---------- */
+.sim-form .field { margin-bottom: 22px; }
+
+.sim-form label {
+  display: block;
+  font-size: 13px;
+  font-weight: 500;
+  margin-bottom: 6px;
+}
+
+.input-suffix {
+  display: flex;
+  align-items: center;
+  border: 1px solid var(--border-soft);
+  border-radius: 6px;
+  overflow: hidden;
+  background: #FFFFFF;
+}
+
+.input-suffix input {
+  flex: 1;
+  border: none;
+  padding: 10px 12px;
+  font-size: 14px;
+  font-family: inherit;
+  font-variant-numeric: tabular-nums;
+  color: var(--text-dark);
+}
+
+.input-suffix input:focus { outline: none; }
+
+.input-suffix:focus-within {
+  border-color: var(--sage-500);
+  box-shadow: 0 0 0 3px rgba(122, 158, 126, 0.18);
+}
+
+.input-suffix .suffix {
+  padding: 0 14px;
+  font-size: 13px;
+  color: var(--text-muted);
+  background: var(--ivory-200);
+  align-self: stretch;
+  display: flex;
+  align-items: center;
+}
+
+.field-hint {
+  font-size: 11px;
+  color: var(--text-muted);
+  margin-top: 6px;
+  line-height: 1.6;
+}
+
+.radio-group {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.radio-chip {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 13px;
+  padding: 10px 12px;
+  border: 1px solid var(--border-soft);
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.radio-chip input { accent-color: var(--sage-500); }
+
+.btn-primary {
+  padding: 12px 22px;
+  background: var(--navy-800);
+  color: var(--ivory-100);
+  border: none;
+  border-radius: 6px;
+  font-size: 14px;
+  font-weight: 700;
+  font-family: inherit;
+  cursor: pointer;
+  transition: background 0.15s ease;
+}
+
+.btn-primary:hover { background: var(--sage-500); }
+
+.btn-block { width: 100%; margin-top: 4px; }
+
+/* ---------- 結果プレビュー ---------- */
+.result-figure {
+  background: var(--navy-950);
+  color: var(--ivory-100);
+  border-radius: 8px;
+  padding: 20px 24px;
+  margin-bottom: 20px;
+}
+
+.result-label {
+  font-size: 12px;
+  color: #C7CCDA;
+  margin-bottom: 6px;
+}
+
+.result-value {
+  font-size: 28px;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  color: var(--sage-400);
+}
+
+.chart-wrap {
+  width: 100%;
+  height: 220px;
+  margin-bottom: 12px;
+}
+
+.chart-wrap svg { width: 100%; height: 100%; overflow: visible; }
+
+.grid-line { stroke: rgba(36, 48, 63, 0.06); stroke-width: 1; }
+
+.growth-line {
+  fill: none;
+  stroke: var(--sage-500);
+  stroke-width: 3;
+  stroke-linecap: round;
+}
+
+.principal-line {
+  fill: none;
+  stroke: var(--border-soft);
+  stroke-width: 2;
+  stroke-dasharray: 4 4;
+}
+
+.chart-legend {
+  display: flex;
+  gap: 20px;
+  font-size: 12px;
+  color: var(--text-muted);
+  margin-bottom: 20px;
+}
+
+.chart-legend span { display: flex; align-items: center; gap: 6px; }
+
+.dot { width: 8px; height: 8px; border-radius: 50%; display: inline-block; }
+.dot-sage { background: var(--sage-500); }
+.dot-line { background: var(--border-soft); }
+
+.result-breakdown {
+  border-top: 1px solid var(--border-soft);
+  padding-top: 16px;
+  margin-bottom: 16px;
+}
+
+.bd-row {
+  display: flex;
+  justify-content: space-between;
+  font-size: 13px;
+  padding: 6px 0;
+}
+
+.bd-row dt { color: var(--text-muted); }
+.bd-row dd { font-weight: 700; font-variant-numeric: tabular-nums; }
+.bd-row dd.positive { color: var(--sage-500); }
+
+.link-arrow {
+  display: inline-block;
+  font-size: 13px;
+  color: var(--sage-500);
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.link-arrow:hover { text-decoration: underline; }
+
+/* ---------- レスポンシブ ---------- */
+@media (max-width: 900px) {
+  .grid { grid-template-columns: 1fr; }
+}
+
+@media (max-width: 640px) {
+  .app-header { padding: 0 20px; gap: 20px; }
+  .main-nav { gap: 16px; overflow-x: auto; }
+  .page-body { padding: 24px 20px 60px; }
+}

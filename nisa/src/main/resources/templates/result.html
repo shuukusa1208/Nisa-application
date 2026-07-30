@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>試算結果 | NISA資産管理</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@500;700&family=Noto+Sans+JP:wght@400;500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/result.css">
+</head>
+<body>
+
+  <!-- ヘッダー -->
+  <header class="app-header">
+    <div class="brand-mark">つみたて<span>NISA</span></div>
+    <nav class="main-nav">
+      <a href="#">ダッシュボード</a>
+      <a href="#">資産一覧</a>
+      <a href="#" class="active">シミュレーション</a>
+      <a href="#">マイページ</a>
+    </nav>
+    <div class="header-right">
+      <div class="user-chip">
+        <div class="avatar">田</div>
+        <span class="user-name">田中 太郎</span>
+      </div>
+    </div>
+  </header>
+
+  <main class="page-body">
+    <a href="#" class="back-link">← 試算条件に戻る</a>
+
+    <div class="page-heading">
+      <h1>試算結果</h1>
+      <p class="sub">毎月40,000円を年率5.0%で20年間積み立てた場合</p>
+    </div>
+
+    <!-- メイン結果 -->
+    <div class="hero-result card">
+      <div class="hero-label">20年後の資産評価額</div>
+      <div class="hero-value">¥16,470,000</div>
+      <div class="hero-sub">元本 ¥9,600,000 に対して、運用益 <span class="positive">+¥6,870,000</span>(+71.6%)</div>
+    </div>
+
+    <!-- 推移グラフ -->
+    <section class="card chart-card">
+      <h2 class="card-title">資産推移シミュレーション</h2>
+
+      <div class="chart-wrap">
+        <svg viewBox="0 0 640 260" preserveAspectRatio="none">
+          <line class="grid-line" x1="0" y1="220" x2="640" y2="220" />
+          <line class="grid-line" x1="0" y1="160" x2="640" y2="160" />
+          <line class="grid-line" x1="0" y1="100" x2="640" y2="100" />
+          <line class="grid-line" x1="0" y1="40" x2="640" y2="40" />
+
+          <path class="principal-line" d="M0,225 C160,205 320,180 640,150" />
+          <path class="growth-fill" d="M0,225 C120,200 220,160 320,120 C420,80 500,45 640,10 L640,260 L0,260 Z" fill="url(#resultGrowthGradient)" />
+          <path class="growth-line" d="M0,225 C120,200 220,160 320,120 C420,80 500,45 640,10" />
+
+          <defs>
+            <linearGradient id="resultGrowthGradient" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stop-color="#7A9E7E" stop-opacity="0.30" />
+              <stop offset="100%" stop-color="#7A9E7E" stop-opacity="0" />
+            </linearGradient>
+          </defs>
+        </svg>
+      </div>
+
+      <div class="chart-legend">
+        <span><span class="dot dot-sage"></span>資産評価額</span>
+        <span><span class="dot dot-line"></span>積立元本累計</span>
+      </div>
+
+      <div class="axis-labels">
+        <span>0年</span>
+        <span>5年</span>
+        <span>10年</span>
+        <span>15年</span>
+        <span>20年</span>
+      </div>
+    </section>
+
+    <div class="grid">
+
+      <!-- 条件サマリー -->
+      <section class="card">
+        <h2 class="card-title">試算条件</h2>
+        <dl class="cond-list">
+          <div class="cond-row">
+            <dt>初期投資額</dt>
+            <dd>¥0</dd>
+          </div>
+          <div class="cond-row">
+            <dt>毎月の積立額</dt>
+            <dd>¥40,000</dd>
+          </div>
+          <div class="cond-row">
+            <dt>積立期間</dt>
+            <dd>20年</dd>
+          </div>
+          <div class="cond-row">
+            <dt>想定利回り(年率)</dt>
+            <dd>5.0%</dd>
+          </div>
+          <div class="cond-row">
+            <dt>投資枠</dt>
+            <dd>つみたて投資枠</dd>
+          </div>
+        </dl>
+      </section>
+
+      <!-- 年次内訳テーブル -->
+      <section class="card table-card">
+        <h2 class="card-title">年次内訳(抜粋)</h2>
+        <table class="year-table">
+          <thead>
+            <tr>
+              <th>経過年数</th>
+              <th class="num">積立元本累計</th>
+              <th class="num">資産評価額</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>5年目</td>
+              <td class="num">¥2,400,000</td>
+              <td class="num">¥2,721,000</td>
+            </tr>
+            <tr>
+              <td>10年目</td>
+              <td class="num">¥4,800,000</td>
+              <td class="num">¥6,220,000</td>
+            </tr>
+            <tr>
+              <td>15年目</td>
+              <td class="num">¥7,200,000</td>
+              <td class="num">¥10,758,000</td>
+            </tr>
+            <tr>
+              <td class="row-highlight">20年目</td>
+              <td class="num row-highlight">¥9,600,000</td>
+              <td class="num row-highlight">¥16,470,000</td>
+            </tr>
+          </tbody>
+        </table>
+      </section>
+
+    </div>
+
+    <div class="action-row">
+      <button class="btn-outline" type="button">条件を変えて再計算</button>
+      <button class="btn-primary" type="button">この条件で資産を登録</button>
+    </div>
+  </main>
+
+</body>
+</html>

@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ログイン | NISA資産管理</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@500;700&family=Noto+Sans+JP:wght@400;500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/login.css">
+</head>
+<body>
+  <div class="layout">
+    <!-- 左パネル -->
+    <div class="brand-panel">
+      <div class="brand-mark">つみたて<span>NISA</span></div>
+
+      <div class="brand-copy">
+        <div class="eyebrow">ASSET GROWTH SIMULATOR</div>
+        <h1>時間を味方につけて、<br>資産を育てる。</h1>
+      </div>
+
+      <div class="chart-wrap">
+        <div class="figure-callout">
+          <div class="label">20年後の想定評価額</div>
+          <div class="value">¥12,480,000</div>
+        </div>
+        <svg viewBox="0 0 400 220" preserveAspectRatio="none">
+          <line class="grid-line" x1="0" y1="200" x2="400" y2="200" />
+          <line class="grid-line" x1="0" y1="140" x2="400" y2="140" />
+          <line class="grid-line" x1="0" y1="80" x2="400" y2="80" />
+          <line class="grid-line" x1="0" y1="20" x2="400" y2="20" />
+
+          <path class="growth-fill" d="M0,190 C60,185 100,175 140,155 C190,130 220,90 260,60 C300,32 340,18 400,10 L400,220 L0,220 Z" fill="url(#growthGradient)" />
+          <path class="growth-line" d="M0,190 C60,185 100,175 140,155 C190,130 220,90 260,60 C300,32 340,18 400,10" />
+          <circle class="growth-dot" cx="400" cy="10" r="5" fill="#C9A661" />
+
+          <defs>
+            <linearGradient id="growthGradient" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stop-color="#7A9E7E" stop-opacity="0.35" />
+              <stop offset="100%" stop-color="#7A9E7E" stop-opacity="0" />
+            </linearGradient>
+          </defs>
+        </svg>
+      </div>
+
+      <div class="brand-footnote">つみたてNISA・成長投資枠の資産シミュレーションと管理を、ひとつの画面で。</div>
+    </div>
+
+    <!-- 右パネル：ログインフォーム -->
+    <div class="form-panel">
+      <div class="form-card">
+        <h2>ログイン</h2>
+        <p class="sub">アカウント情報を入力してください</p>
+
+        <!-- エラー時のみ表示。今は見た目確認用にコメントアウト -->
+        <!--
+        <div class="alert">メールアドレスまたはパスワードが正しくありません。</div>
+        -->
+
+        <form action="/login" method="post">
+          <div class="field">
+            <label for="username">メールアドレス</label>
+            <input type="email" id="username" name="username" placeholder="you@example.com" required autofocus>
+          </div>
+
+          <div class="field">
+            <label for="password">パスワード</label>
+            <input type="password" id="password" name="password" placeholder="••••••••" required>
+          </div>
+
+          <div class="row-between">
+            <label class="remember">
+              <input type="checkbox" name="remember-me">
+              ログイン状態を保持
+            </label>
+            <a href="#">パスワードをお忘れですか？</a>
+          </div>
+
+          <button type="submit" class="submit-btn">ログイン</button>
+        </form>
+
+        <p class="signup-hint">アカウントをお持ちでない方は <a href="/signup">新規登録</a></p>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

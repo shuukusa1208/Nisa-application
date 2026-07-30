@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>資産の登録・編集 | NISA資産管理</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@500;700&family=Noto+Sans+JP:wght@400;500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/asset-edit.css">
+</head>
+<body>
+
+  <!-- ヘッダー -->
+  <header class="app-header">
+    <div class="brand-mark">つみたて<span>NISA</span></div>
+    <nav class="main-nav">
+      <a href="#">ダッシュボード</a>
+      <a href="#" class="active">資産一覧</a>
+      <a href="#">シミュレーション</a>
+      <a href="#">マイページ</a>
+    </nav>
+    <div class="header-right">
+      <div class="user-chip">
+        <div class="avatar">田</div>
+        <span class="user-name">田中 太郎</span>
+      </div>
+    </div>
+  </header>
+
+  <main class="page-body">
+    <a href="#" class="back-link">← 資産一覧に戻る</a>
+
+    <div class="page-heading">
+      <h1>資産の登録・編集</h1>
+      <p class="sub">保有している銘柄の情報を入力してください</p>
+    </div>
+
+    <div class="grid">
+
+      <!-- 入力フォーム -->
+      <section class="card form-card">
+
+        <div class="field">
+          <label for="asset-name">銘柄名</label>
+          <input type="text" id="asset-name" placeholder="例：eMAXIS Slim 全世界株式(オール・カントリー)" value="eMAXIS Slim 全世界株式">
+        </div>
+
+        <div class="field">
+          <label for="asset-code">ファンドコード(任意)</label>
+          <input type="text" id="asset-code" placeholder="例：03312152">
+        </div>
+
+        <div class="field-row">
+          <div class="field">
+            <label for="quantity">保有口数</label>
+            <div class="input-suffix">
+              <input type="number" id="quantity" value="42180" min="0">
+              <span class="suffix">口</span>
+            </div>
+          </div>
+          <div class="field">
+            <label for="acquisition">取得額</label>
+            <div class="input-suffix">
+              <input type="number" id="acquisition" value="785000" min="0" step="1000">
+              <span class="suffix">円</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="field">
+          <label for="current-value">現在の評価額</label>
+          <div class="input-suffix">
+            <input type="number" id="current-value" value="862400" min="0" step="1000">
+            <span class="suffix">円</span>
+          </div>
+          <p class="field-hint">最新の基準価額から自動計算する機能は後日追加予定です</p>
+        </div>
+
+        <div class="field">
+          <label for="purchase-date">購入日</label>
+          <input type="date" id="purchase-date" value="2024-05-10">
+        </div>
+
+        <div class="field">
+          <label>投資枠</label>
+          <div class="radio-group">
+            <label class="radio-chip">
+              <input type="radio" name="frame" checked>
+              つみたて投資枠
+            </label>
+            <label class="radio-chip">
+              <input type="radio" name="frame">
+              成長投資枠
+            </label>
+          </div>
+        </div>
+
+        <div class="field">
+          <label for="memo">メモ(任意)</label>
+          <textarea id="memo" rows="3" placeholder="購入理由や運用方針など"></textarea>
+        </div>
+
+      </section>
+
+      <!-- 右：プレビュー -->
+      <section class="card preview-card">
+        <h2 class="card-title">プレビュー</h2>
+
+        <div class="preview-name">eMAXIS Slim 全世界株式</div>
+        <div class="preview-badge"><span class="badge badge-sage">つみたて投資枠</span></div>
+
+        <dl class="preview-list">
+          <div class="preview-row">
+            <dt>保有口数</dt>
+            <dd>42,180口</dd>
+          </div>
+          <div class="preview-row">
+            <dt>取得額</dt>
+            <dd>¥785,000</dd>
+          </div>
+          <div class="preview-row">
+            <dt>評価額</dt>
+            <dd>¥862,400</dd>
+          </div>
+          <div class="preview-row">
+            <dt>評価損益</dt>
+            <dd class="positive">+¥77,400 (+9.8%)</dd>
+          </div>
+        </dl>
+
+        <div class="preview-note">
+          入力内容はリアルタイムでここに反映される想定です(現在は静的表示)。
+        </div>
+      </section>
+
+    </div>
+
+    <div class="action-row">
+      <button class="btn-danger-outline" type="button">この資産を削除</button>
+      <div class="action-right">
+        <button class="btn-outline" type="button">キャンセル</button>
+        <button class="btn-primary" type="button">保存する</button>
+      </div>
+    </div>
+  </main>
+
+</body>
+</html>

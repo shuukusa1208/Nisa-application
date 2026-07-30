@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>シミュレーション | NISA資産管理</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@500;700&family=Noto+Sans+JP:wght@400;500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/simulation.css">
+</head>
+<body>
+
+  <!-- ヘッダー -->
+  <header class="app-header">
+    <div class="brand-mark">つみたて<span>NISA</span></div>
+    <nav class="main-nav">
+      <a href="#">ダッシュボード</a>
+      <a href="#">資産一覧</a>
+      <a href="#" class="active">シミュレーション</a>
+      <a href="#">マイページ</a>
+    </nav>
+    <div class="header-right">
+      <div class="user-chip">
+        <div class="avatar">田</div>
+        <span class="user-name">田中 太郎</span>
+      </div>
+    </div>
+  </header>
+
+  <main class="page-body">
+    <div class="page-heading">
+      <h1>資産シミュレーション</h1>
+      <p class="sub">積立額と運用条件を入力して、将来の資産額を試算します</p>
+    </div>
+
+    <div class="grid">
+
+      <!-- 左：入力フォーム -->
+      <section class="card form-card">
+        <h2 class="card-title">試算条件</h2>
+
+        <form class="sim-form">
+          <div class="field">
+            <label for="initial">初期投資額</label>
+            <div class="input-suffix">
+              <input type="number" id="initial" value="0" min="0" step="10000">
+              <span class="suffix">円</span>
+            </div>
+          </div>
+
+          <div class="field">
+            <label for="monthly">毎月の積立額</label>
+            <div class="input-suffix">
+              <input type="number" id="monthly" value="40000" min="0" step="1000">
+              <span class="suffix">円</span>
+            </div>
+          </div>
+
+          <div class="field">
+            <label for="years">積立期間</label>
+            <div class="input-suffix">
+              <input type="number" id="years" value="20" min="1" max="50">
+              <span class="suffix">年</span>
+            </div>
+          </div>
+
+          <div class="field">
+            <label for="rate">想定利回り(年率)</label>
+            <div class="input-suffix">
+              <input type="number" id="rate" value="5" min="0" max="20" step="0.1">
+              <span class="suffix">%</span>
+            </div>
+            <p class="field-hint">全世界株式インデックスの過去平均は年5〜7%程度と言われています</p>
+          </div>
+
+          <div class="field">
+            <label>投資枠</label>
+            <div class="radio-group">
+              <label class="radio-chip">
+                <input type="radio" name="frame" checked>
+                つみたて投資枠
+              </label>
+              <label class="radio-chip">
+                <input type="radio" name="frame">
+                成長投資枠
+              </label>
+              <label class="radio-chip">
+                <input type="radio" name="frame">
+                両方合算
+              </label>
+            </div>
+          </div>
+
+          <button type="submit" class="btn-primary btn-block">試算する</button>
+        </form>
+      </section>
+
+      <!-- 右：試算結果プレビュー -->
+      <section class="card result-preview-card">
+        <h2 class="card-title">試算結果(プレビュー)</h2>
+
+        <div class="result-figure">
+          <div class="result-label">20年後の資産評価額</div>
+          <div class="result-value">¥16,470,000</div>
+        </div>
+
+        <div class="chart-wrap">
+          <svg viewBox="0 0 400 220" preserveAspectRatio="none">
+            <line class="grid-line" x1="0" y1="200" x2="400" y2="200" />
+            <line class="grid-line" x1="0" y1="140" x2="400" y2="140" />
+            <line class="grid-line" x1="0" y1="80" x2="400" y2="80" />
+            <line class="grid-line" x1="0" y1="20" x2="400" y2="20" />
+
+            <path class="principal-line" d="M0,205 C100,190 200,175 400,150" />
+            <path class="growth-fill" d="M0,200 C80,190 140,160 200,130 C280,90 320,50 400,15 L400,220 L0,220 Z" fill="url(#simGrowthGradient)" />
+            <path class="growth-line" d="M0,200 C80,190 140,160 200,130 C280,90 320,50 400,15" />
+
+            <defs>
+              <linearGradient id="simGrowthGradient" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0%" stop-color="#7A9E7E" stop-opacity="0.30" />
+                <stop offset="100%" stop-color="#7A9E7E" stop-opacity="0" />
+              </linearGradient>
+            </defs>
+          </svg>
+        </div>
+
+        <div class="chart-legend">
+          <span><span class="dot dot-sage"></span>評価額</span>
+          <span><span class="dot dot-line"></span>元本累計</span>
+        </div>
+
+        <dl class="result-breakdown">
+          <div class="bd-row">
+            <dt>積立元本合計</dt>
+            <dd>¥9,600,000</dd>
+          </div>
+          <div class="bd-row">
+            <dt>運用益</dt>
+            <dd class="positive">+¥6,870,000</dd>
+          </div>
+        </dl>
+
+        <a href="#" class="link-arrow">詳しい試算結果を見る →</a>
+      </section>
+
+    </div>
+  </main>
+
+</body>
+</html>

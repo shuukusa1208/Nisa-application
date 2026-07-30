@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ホーム | NISA資産管理</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@500;700&family=Noto+Sans+JP:wght@400;500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/home.css">
+</head>
+<body>
+
+  <!-- ヘッダー -->
+  <header class="app-header">
+    <div class="brand-mark">つみたて<span>NISA</span></div>
+    <nav class="main-nav">
+      <a href="#" class="active">ダッシュボード</a>
+      <a href="#">資産一覧</a>
+      <a href="#">シミュレーション</a>
+      <a href="#">マイページ</a>
+    </nav>
+    <div class="header-right">
+      <div class="user-chip">
+        <div class="avatar">田</div>
+        <span class="user-name">田中 太郎</span>
+      </div>
+    </div>
+  </header>
+
+  <main class="page-body">
+    <div class="page-heading">
+      <h1>おかえりなさい、田中さん</h1>
+      <p class="sub">2026年7月22日時点の資産状況です</p>
+    </div>
+
+    <!-- サマリーカード -->
+    <div class="summary-row">
+      <div class="card summary-card">
+        <div class="summary-label">資産評価額</div>
+        <div class="summary-value">¥1,842,600</div>
+        <div class="summary-sub positive">前日比 +¥12,400 (+0.68%)</div>
+      </div>
+      <div class="card summary-card">
+        <div class="summary-label">累計投資額</div>
+        <div class="summary-value">¥1,656,000</div>
+        <div class="summary-sub muted">元本ベース</div>
+      </div>
+      <div class="card summary-card">
+        <div class="summary-label">評価損益</div>
+        <div class="summary-value positive">+¥186,600</div>
+        <div class="summary-sub positive">+11.27%</div>
+      </div>
+      <div class="card summary-card">
+        <div class="summary-label">今年の積立額</div>
+        <div class="summary-value">¥480,000</div>
+        <div class="summary-sub muted">月4万円ペース</div>
+      </div>
+    </div>
+
+    <div class="grid">
+
+      <!-- 左カラム：資産推移グラフ -->
+      <section class="card chart-card">
+        <div class="card-header-row">
+          <h2 class="card-title">資産推移</h2>
+          <div class="range-tabs">
+            <button class="tab" type="button">1ヶ月</button>
+            <button class="tab active" type="button">1年</button>
+            <button class="tab" type="button">全期間</button>
+          </div>
+        </div>
+
+        <div class="chart-wrap">
+          <svg viewBox="0 0 640 240" preserveAspectRatio="none">
+            <line class="grid-line" x1="0" y1="200" x2="640" y2="200" />
+            <line class="grid-line" x1="0" y1="140" x2="640" y2="140" />
+            <line class="grid-line" x1="0" y1="80" x2="640" y2="80" />
+            <line class="grid-line" x1="0" y1="20" x2="640" y2="20" />
+
+            <path class="growth-fill" d="M0,180 C80,175 140,165 200,150 C280,130 320,95 400,70 C460,50 520,35 640,15 L640,240 L0,240 Z" fill="url(#homeGrowthGradient)" />
+            <path class="growth-line" d="M0,180 C80,175 140,165 200,150 C280,130 320,95 400,70 C460,50 520,35 640,15" />
+            <circle class="growth-dot" cx="640" cy="15" r="5" fill="#C9A661" />
+
+            <defs>
+              <linearGradient id="homeGrowthGradient" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0%" stop-color="#7A9E7E" stop-opacity="0.30" />
+                <stop offset="100%" stop-color="#7A9E7E" stop-opacity="0" />
+              </linearGradient>
+            </defs>
+          </svg>
+        </div>
+
+        <div class="chart-legend">
+          <span><span class="dot dot-sage"></span>評価額</span>
+          <span><span class="dot dot-line"></span>元本</span>
+        </div>
+      </section>
+
+      <!-- 右カラム：NISA枠 + 保有銘柄 -->
+      <div class="right-col">
+
+        <section class="card">
+          <h2 class="card-title">NISA枠の利用状況</h2>
+
+          <div class="quota-row">
+            <div class="quota-label">
+              <span class="dot dot-sage"></span>
+              つみたて投資枠
+            </div>
+            <div class="quota-bar">
+              <div class="quota-fill" style="width: 62%;"></div>
+            </div>
+            <div class="quota-value">62%</div>
+          </div>
+
+          <div class="quota-row">
+            <div class="quota-label">
+              <span class="dot dot-gold"></span>
+              成長投資枠
+            </div>
+            <div class="quota-bar">
+              <div class="quota-fill quota-fill-gold" style="width: 38%;"></div>
+            </div>
+            <div class="quota-value">38%</div>
+          </div>
+
+          <a href="#" class="link-arrow">マイページで詳細を見る →</a>
+        </section>
+
+        <section class="card">
+          <div class="card-header-row">
+            <h2 class="card-title">保有銘柄</h2>
+            <a href="#" class="link-arrow">資産一覧へ →</a>
+          </div>
+
+          <ul class="holding-list">
+            <li class="holding-row">
+              <div class="holding-info">
+                <div class="holding-name">eMAXIS Slim 全世界株式</div>
+                <div class="holding-sub">つみたて投資枠</div>
+              </div>
+              <div class="holding-numbers">
+                <div class="holding-value">¥862,400</div>
+                <div class="holding-change positive">+9.8%</div>
+              </div>
+            </li>
+            <li class="holding-row">
+              <div class="holding-info">
+                <div class="holding-name">eMAXIS Slim 米国株式(S&P500)</div>
+                <div class="holding-sub">つみたて投資枠</div>
+              </div>
+              <div class="holding-numbers">
+                <div class="holding-value">¥614,200</div>
+                <div class="holding-change positive">+13.4%</div>
+              </div>
+            </li>
+            <li class="holding-row">
+              <div class="holding-info">
+                <div class="holding-name">SBI・V・全米株式</div>
+                <div class="holding-sub">成長投資枠</div>
+              </div>
+              <div class="holding-numbers">
+                <div class="holding-value">¥366,000</div>
+                <div class="holding-change negative">-2.1%</div>
+              </div>
+            </li>
+          </ul>
+        </section>
+
+      </div>
+    </div>
+
+    <!-- クイックアクション -->
+    <div class="quick-actions">
+      <a href="#" class="action-card">
+        <div class="action-title">シミュレーションする</div>
+        <div class="action-desc">将来の資産を試算</div>
+      </a>
+      <a href="#" class="action-card">
+        <div class="action-title">資産を登録する</div>
+        <div class="action-desc">保有銘柄を追加・編集</div>
+      </a>
+      <a href="#" class="action-card">
+        <div class="action-title">マイページ</div>
+        <div class="action-desc">口座情報・設定を確認</div>
+      </a>
+    </div>
+
+  </main>
+
+</body>
+</html>
