@@ -1,4 +1,6 @@
 //新規登録画面の表示と、登録処理を行うcontroller
+//フォーム送信を受け取り、次に何を呼ぶか指示するだけ。自分では何も処理しない
+
 
 package com.example.nisa.Controller;
 

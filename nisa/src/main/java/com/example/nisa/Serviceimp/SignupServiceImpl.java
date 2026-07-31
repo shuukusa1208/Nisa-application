@@ -1,15 +1,18 @@
 package com.example.nisa.Serviceimp;
 
-import com.example.nisa.Entity.User;
-import com.example.nisa.Dao.RegisterMapper;
-import com.example.nisa.Service.SignupService;
-
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+
+import com.example.nisa.Dao.RegisterMapper;
+import com.example.nisa.Entity.User;
+import com.example.nisa.Service.SignupService;
 
 /**
  * SignupService の実装クラス。
  * DAOは RegisterMapper のみを使用する(ログイン用のDAOには依存しない)。
+ * 
+ * 実際のビジネスロジック本体。①メール重複チェック、②パスワードをBCryptでハッシュ化、③Userを組み立てて保存依頼、を行う
+ * 
  */
 @Service
 public class SignupServiceImpl implements SignupService {

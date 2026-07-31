@@ -1,12 +1,15 @@
 package com.example.nisa.Dao;
 
-import com.example.nisa.Entity.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
+
+import com.example.nisa.Entity.User;
 
 /**
  * 新規登録用のDAO。
  * Spring Data JPAを使用してデータベース操作を行う。
+ * 
+ * 	実際にDBとやり取りする部分。save()やcountByEmail()を呼ぶだけで、裏でSQLが自動生成される(JPAの機能)
  */
 @Repository
 public interface RegisterMapper extends JpaRepository<User, Long> {

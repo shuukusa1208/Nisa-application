@@ -10,6 +10,8 @@ import jakarta.validation.constraints.Size;
  * Entity(User)との違い:
  *   - passwordは平文のまま保持する(ハッシュ化はUserServiceの役目)
  *   - バリデーション(入力チェック)のアノテーションをここに集約する
+ * 
+ * 送られてきた値を入れる箱。@NotBlankなどで「空欄はダメ」「メール形式じゃないとダメ」を自動チェック
  *
  * pom.xmlに spring-boot-starter-validation の追加が必要:
  *   <dependency>
