@@ -1,8 +1,8 @@
 package com.example.nisa.Serviceimp;
 
-import com.example.nisa.entity.User;
-import com.example.nisa.dao.RegisterMapper;
-import com.example.nisa.service.SignupService;
+import com.example.nisa.Entity.User;
+import com.example.nisa.Dao.RegisterMapper;
+import com.example.nisa.Service.SignupService;
 
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -33,7 +33,7 @@ public class SignupServiceImpl implements SignupService {
         user.setPasswordHash(passwordEncoder.encode(rawPassword)); // 平文→BCryptハッシュに変換
         user.setName(name);
 
-        registerMapper.insert(user);
+        registerMapper.save(user);
         return true;
     }
 }

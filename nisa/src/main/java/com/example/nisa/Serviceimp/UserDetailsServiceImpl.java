@@ -1,9 +1,9 @@
 //ログインするためのユーザー情報をDBから習得するためのクラス
 
-package com.example.nisa.service;
+package com.example.nisa.Serviceimp;
 
-import com.example.nisa.entity.User;
-import com.example.nisa.mapper.UserMapper;
+import com.example.nisa.Entity.User;
+import com.example.nisa.Dao.UserMapper;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;

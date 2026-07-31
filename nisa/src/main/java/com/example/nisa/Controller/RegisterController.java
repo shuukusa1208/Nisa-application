@@ -1,4 +1,3 @@
-//Serviceを作ってないからエラー
 //新規登録画面の表示と、登録処理を行うcontroller
 
 package com.example.nisa.Controller;
