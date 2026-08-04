@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="ja">
+<html lang="ja" xmlns:th="http://www.thymeleaf.org">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -14,23 +14,23 @@
   <header class="app-header">
     <div class="brand-mark">つみたて<span>NISA</span></div>
     <nav class="main-nav">
-      <a href="#" class="active">ダッシュボード</a>
-      <a href="#">資産一覧</a>
-      <a href="#">シミュレーション</a>
-      <a href="#">マイページ</a>
+      <a th:href="@{/home}" class="active">ダッシュボード</a>
+      <a th:href="@{/assets}">資産一覧</a>
+      <a th:href="@{/simulation}">シミュレーション</a>
+      <a th:href="@{/mypage}">マイページ</a>
     </nav>
     <div class="header-right">
       <div class="user-chip">
-        <div class="avatar">田</div>
-        <span class="user-name">田中 太郎</span>
+        <div class="avatar" th:text="${userName != null ? userName.substring(0, 1) : 'N'}">田</div>
+        <span class="user-name" th:text="${userName}">田中 太郎</span>
       </div>
     </div>
   </header>
 
   <main class="page-body">
     <div class="page-heading">
-      <h1>おかえりなさい、田中さん</h1>
-      <p class="sub">2026年7月22日時点の資産状況です</p>
+      <h1>おかえりなさい、<span th:text="${userName}">田中</span>さん</h1>
+      <p class="sub" th:text="${today} + '時点の資産状況です'">2026年7月22日時点の資産状況です</p>
     </div>
 
     <!-- サマリーカード -->
@@ -124,13 +124,13 @@
             <div class="quota-value">38%</div>
           </div>
 
-          <a href="#" class="link-arrow">マイページで詳細を見る →</a>
+          <a th:href="@{/mypage}" class="link-arrow">マイページで詳細を見る →</a>
         </section>
 
         <section class="card">
           <div class="card-header-row">
             <h2 class="card-title">保有銘柄</h2>
-            <a href="#" class="link-arrow">資産一覧へ →</a>
+            <a th:href="@{/assets}" class="link-arrow">資産一覧へ →</a>
           </div>
 
           <ul class="holding-list">
@@ -172,15 +172,15 @@
 
     <!-- クイックアクション -->
     <div class="quick-actions">
-      <a href="#" class="action-card">
+      <a th:href="@{/simulation}" class="action-card">
         <div class="action-title">シミュレーションする</div>
         <div class="action-desc">将来の資産を試算</div>
       </a>
-      <a href="#" class="action-card">
+      <a th:href="@{/assets}" class="action-card">
         <div class="action-title">資産を登録する</div>
         <div class="action-desc">保有銘柄を追加・編集</div>
       </a>
-      <a href="#" class="action-card">
+      <a th:href="@{/mypage}" class="action-card">
         <div class="action-title">マイページ</div>
         <div class="action-desc">口座情報・設定を確認</div>
       </a>

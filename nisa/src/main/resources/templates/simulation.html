@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="ja">
+<html lang="ja" xmlns:th="http://www.thymeleaf.org">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -14,15 +14,15 @@
   <header class="app-header">
     <div class="brand-mark">つみたて<span>NISA</span></div>
     <nav class="main-nav">
-      <a href="#">ダッシュボード</a>
-      <a href="#">資産一覧</a>
-      <a href="#" class="active">シミュレーション</a>
-      <a href="#">マイページ</a>
+      <a th:href="@{/home}">ダッシュボード</a>
+      <a th:href="@{/assets}">資産一覧</a>
+      <a th:href="@{/simulation}" class="active">シミュレーション</a>
+      <a th:href="@{/mypage}">マイページ</a>
     </nav>
     <div class="header-right">
       <div class="user-chip">
-        <div class="avatar">田</div>
-        <span class="user-name">田中 太郎</span>
+        <div class="avatar" th:text="${userName != null ? userName.substring(0, 1) : 'N'}">田</div>
+        <span class="user-name" th:text="${userName}">田中 太郎</span>
       </div>
     </div>
   </header>
@@ -39,11 +39,13 @@
       <section class="card form-card">
         <h2 class="card-title">試算条件</h2>
 
-        <form class="sim-form">
+        <form th:action="@{/simulation}" method="post" th:object="${simulationForm}" class="sim-form">
+          <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+
           <div class="field">
             <label for="initial">初期投資額</label>
             <div class="input-suffix">
-              <input type="number" id="initial" value="0" min="0" step="10000">
+              <input type="number" id="initial" th:field="*{initialInvestment}" min="0" step="10000">
               <span class="suffix">円</span>
             </div>
           </div>
@@ -51,7 +53,7 @@
           <div class="field">
             <label for="monthly">毎月の積立額</label>
             <div class="input-suffix">
-              <input type="number" id="monthly" value="40000" min="0" step="1000">
+              <input type="number" id="monthly" th:field="*{monthlyContribution}" min="0" step="1000">
               <span class="suffix">円</span>
             </div>
           </div>
@@ -59,7 +61,7 @@
           <div class="field">
             <label for="years">積立期間</label>
             <div class="input-suffix">
-              <input type="number" id="years" value="20" min="1" max="50">
+              <input type="number" id="years" th:field="*{years}" min="1" max="50">
               <span class="suffix">年</span>
             </div>
           </div>
@@ -67,7 +69,7 @@
           <div class="field">
             <label for="rate">想定利回り(年率)</label>
             <div class="input-suffix">
-              <input type="number" id="rate" value="5" min="0" max="20" step="0.1">
+              <input type="number" id="rate" th:field="*{annualReturnRate}" min="0" max="20" step="0.1">
               <span class="suffix">%</span>
             </div>
             <p class="field-hint">全世界株式インデックスの過去平均は年5〜7%程度と言われています</p>
@@ -77,15 +79,15 @@
             <label>投資枠</label>
             <div class="radio-group">
               <label class="radio-chip">
-                <input type="radio" name="frame" checked>
+                <input type="radio" th:field="*{frame}" value="つみたて投資枠">
                 つみたて投資枠
               </label>
               <label class="radio-chip">
-                <input type="radio" name="frame">
+                <input type="radio" th:field="*{frame}" value="成長投資枠">
                 成長投資枠
               </label>
               <label class="radio-chip">
-                <input type="radio" name="frame">
+                <input type="radio" th:field="*{frame}" value="両方合算">
                 両方合算
               </label>
             </div>
@@ -101,7 +103,7 @@
 
         <div class="result-figure">
           <div class="result-label">20年後の資産評価額</div>
-          <div class="result-value">¥16,470,000</div>
+          <div class="result-value" th:text="${simulatedTotal}">¥16,470,000</div>
         </div>
 
         <div class="chart-wrap">
@@ -132,11 +134,11 @@
         <dl class="result-breakdown">
           <div class="bd-row">
             <dt>積立元本合計</dt>
-            <dd>¥9,600,000</dd>
+            <dd th:text="${simulatedPrincipal}">¥9,600,000</dd>
           </div>
           <div class="bd-row">
             <dt>運用益</dt>
-            <dd class="positive">+¥6,870,000</dd>
+            <dd class="positive" th:text="${simulatedProfit}">+¥6,870,000</dd>
           </div>
         </dl>
 

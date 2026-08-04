@@ -1,3 +1,6 @@
+//アプリ全体の「警備システム（設定ファイル）」
+//「このアプリ全体のセキュリティルールはこれ！未ログインの人は /login 以外入っちゃダメ！」というルールをアプリ起動時に登録する場所。
+
 package com.example.nisa.Config;
 
 import org.springframework.context.annotation.Bean;

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="ja">
+<html lang="ja" xmlns:th="http://www.thymeleaf.org">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -14,15 +14,15 @@
   <header class="app-header">
     <div class="brand-mark">つみたて<span>NISA</span></div>
     <nav class="main-nav">
-      <a href="#">ダッシュボード</a>
-      <a href="#" class="active">資産一覧</a>
-      <a href="#">シミュレーション</a>
-      <a href="#">マイページ</a>
+      <a th:href="@{/home}">ダッシュボード</a>
+      <a th:href="@{/assets}" class="active">資産一覧</a>
+      <a th:href="@{/simulation}">シミュレーション</a>
+      <a th:href="@{/mypage}">マイページ</a>
     </nav>
     <div class="header-right">
       <div class="user-chip">
-        <div class="avatar">田</div>
-        <span class="user-name">田中 太郎</span>
+        <div class="avatar" th:text="${userName != null ? userName.substring(0, 1) : 'N'}">田</div>
+        <span class="user-name" th:text="${userName}">田中 太郎</span>
       </div>
     </div>
   </header>
@@ -33,7 +33,7 @@
         <h1>資産一覧</h1>
         <p class="sub">保有している銘柄と評価損益を確認できます</p>
       </div>
-      <button class="btn-primary" type="button">+ 資産を登録</button>
+      <a th:href="@{/asset-edit}" class="btn-primary">+ 資産を登録</a>
     </div>
 
     <!-- サマリーバー -->
@@ -79,46 +79,21 @@
           </tr>
         </thead>
         <tbody>
-          <tr>
-            <td>
-              <div class="asset-name">eMAXIS Slim 全世界株式</div>
-              <div class="asset-code">オール・カントリー</div>
-            </td>
-            <td><span class="badge badge-sage">つみたて</span></td>
-            <td class="num">42,180口</td>
-            <td class="num">¥785,000</td>
-            <td class="num">¥862,400</td>
-            <td class="num positive">+¥77,400 (+9.8%)</td>
-            <td class="actions-col">
-              <a href="#" class="link-edit">編集</a>
-            </td>
+              <tr th:if="${#lists.isEmpty(assets)}">
+            <td colspan="7" class="empty-state">まだ資産が登録されていません。右上の「+ 資産を登録」を押して、まずは1件登録しましょう。</td>
           </tr>
-          <tr>
+          <tr th:each="asset : ${assets}">
             <td>
-              <div class="asset-name">eMAXIS Slim 米国株式(S&P500)</div>
-              <div class="asset-code">S&P500連動</div>
+              <div class="asset-name" th:text="${asset.name}">eMAXIS Slim 全世界株式</div>
+              <div class="asset-code" th:text="${asset.code}">オール・カントリー</div>
             </td>
-            <td><span class="badge badge-sage">つみたて</span></td>
-            <td class="num">28,940口</td>
-            <td class="num">¥541,600</td>
-            <td class="num">¥614,200</td>
-            <td class="num positive">+¥72,600 (+13.4%)</td>
+            <td><span class="badge" th:text="${asset.frame}">つみたて</span></td>
+            <td class="num" th:text="${asset.quantity} + '口'">42,180口</td>
+            <td class="num" th:text="'¥' + ${#numbers.formatInteger(asset.acquisition,',')}">¥785,000</td>
+            <td class="num" th:text="'¥' + ${asset.currentValue}">¥862,400</td>
+            <td class="num" th:text="${asset.currentValue - asset.acquisition >= 0 ? '+' : ''} + '¥' + (asset.currentValue - asset.acquisition)">+¥77,400</td>
             <td class="actions-col">
-              <a href="#" class="link-edit">編集</a>
-            </td>
-          </tr>
-          <tr>
-            <td>
-              <div class="asset-name">SBI・V・全米株式</div>
-              <div class="asset-code">CRSP USトータル・マーケット</div>
-            </td>
-            <td><span class="badge badge-gold">成長投資</span></td>
-            <td class="num">15,320口</td>
-            <td class="num">¥373,900</td>
-            <td class="num">¥366,000</td>
-            <td class="num negative">-¥7,900 (-2.1%)</td>
-            <td class="actions-col">
-              <a href="#" class="link-edit">編集</a>
+              <a th:href="@{/asset-edit}" class="link-edit">編集</a>
             </td>
           </tr>
         </tbody>

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="ja">
+<html lang="ja" xmlns:th="http://www.thymeleaf.org">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -14,15 +14,15 @@
   <header class="app-header">
     <div class="brand-mark">つみたて<span>NISA</span></div>
     <nav class="main-nav">
-      <a href="#">ダッシュボード</a>
-      <a href="#">資産一覧</a>
-      <a href="#">シミュレーション</a>
-      <a href="#" class="active">マイページ</a>
+      <a th:href="@{/home}">ダッシュボード</a>
+      <a th:href="@{/assets}">資産一覧</a>
+      <a th:href="@{/simulation}">シミュレーション</a>
+      <a th:href="@{/mypage}" class="active">マイページ</a>
     </nav>
     <div class="header-right">
       <div class="user-chip">
-        <div class="avatar">田</div>
-        <span class="user-name">田中 太郎</span>
+        <div class="avatar" th:text="${userName != null ? userName.substring(0, 1) : 'N'}">田</div>
+        <span class="user-name" th:text="${userName}">田中 太郎</span>
       </div>
     </div>
   </header>
@@ -40,14 +40,14 @@
         <div class="profile-top">
           <div class="avatar-lg">田</div>
           <div>
-            <div class="profile-name">田中 太郎</div>
-            <div class="profile-email">taro.tanaka@example.com</div>
+            <div class="profile-name" th:text="${userName}">田中 太郎</div>
+            <div class="profile-email" th:text="${userEmail}">taro.tanaka@example.com</div>
           </div>
         </div>
         <dl class="profile-meta">
           <div class="meta-row">
             <dt>登録日</dt>
-            <dd>2024年4月12日</dd>
+            <dd th:text="${registeredAt}">2024年4月12日</dd>
           </div>
           <div class="meta-row">
             <dt>証券会社</dt>
@@ -98,12 +98,12 @@
           <form class="settings-form">
             <div class="field">
               <label for="name">氏名</label>
-              <input type="text" id="name" value="田中 太郎">
+              <input type="text" id="name" th:value="${userName}">
             </div>
 
             <div class="field">
               <label for="email">メールアドレス</label>
-              <input type="email" id="email" value="taro.tanaka@example.com">
+              <input type="email" id="email" th:value="${userEmail}">
             </div>
 
             <div class="field">
