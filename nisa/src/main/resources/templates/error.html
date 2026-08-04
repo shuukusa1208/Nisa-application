@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="ja" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>エラー | NISA資産管理</title>
+  <style>
+    body { font-family: 'Noto Sans JP', sans-serif; margin: 0; background: #f4f7f2; color: #1f2a24; }
+    .wrap { max-width: 720px; margin: 80px auto; padding: 32px; background: #fff; border-radius: 20px; box-shadow: 0 10px 40px rgba(31,42,36,.08); }
+    h1 { margin-top: 0; color: #5f8160; }
+    .muted { color: #6b7570; }
+    .code { font-size: 14px; color: #8a8f8b; margin-top: 16px; }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <h1>エラーが発生しました</h1>
+    <p class="muted">ページの表示中に問題が発生しました。しばらくしてから再度お試しください。</p>
+    <p th:if="${status}" class="code">ステータス: <span th:text="${status}"></span></p>
+    <p th:if="${error}" class="code">エラー: <span th:text="${error}"></span></p>
+    <p th:if="${message}" class="code">詳細: <span th:text="${message}"></span></p>
+  </div>
+</body>
+</html>

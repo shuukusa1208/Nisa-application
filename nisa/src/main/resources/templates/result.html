@@ -1,12 +1,12 @@
 <!DOCTYPE html>
-<html lang="ja">
+<html lang="ja" xmlns:th="http://www.thymeleaf.org">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>試算結果 | NISA資産管理</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@500;700&family=Noto+Sans+JP:wght@400;500;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="css/result.css">
+  <link rel="stylesheet" th:href="@{/css/result.css}">
 </head>
 <body>
 
@@ -14,32 +14,33 @@
   <header class="app-header">
     <div class="brand-mark">つみたて<span>NISA</span></div>
     <nav class="main-nav">
-      <a href="#">ダッシュボード</a>
-      <a href="#">資産一覧</a>
-      <a href="#" class="active">シミュレーション</a>
-      <a href="#">マイページ</a>
+      <a th:href="@{/home}">ダッシュボード</a>
+      <a th:href="@{/assets}">資産一覧</a>
+      <a th:href="@{/simulation}" class="active">シミュレーション</a>
+      <a th:href="@{/mypage}">マイページ</a>
+      <a th:href="@{/login}" style="display:inline-block;padding:6px 12px;border:1px solid #7A9E7E;border-radius:999px;color:#7A9E7E;text-decoration:none;font-weight:700;">ログイン画面へ</a>
     </nav>
     <div class="header-right">
       <div class="user-chip">
-        <div class="avatar">田</div>
-        <span class="user-name">田中 太郎</span>
+        <div class="avatar" th:text="${userName != null ? userName.substring(0, 1) : 'N'}">田</div>
+        <span class="user-name" th:text="${userName}">田中 太郎</span>
       </div>
     </div>
   </header>
 
   <main class="page-body">
-    <a href="#" class="back-link">← 試算条件に戻る</a>
+    <a th:href="@{/simulation}" class="back-link">← 試算条件に戻る</a>
 
     <div class="page-heading">
       <h1>試算結果</h1>
-      <p class="sub">毎月40,000円を年率5.0%で20年間積み立てた場合</p>
+      <p class="sub" th:text="|毎月${#numbers.formatInteger(simulationForm.monthlyContribution, 1)}円を年率${simulationForm.annualReturnRate}％で${simulationForm.years}年間積み立てた場合|">毎月40,000円を年率5.0%で20年間積み立てた場合</p>
     </div>
 
     <!-- メイン結果 -->
     <div class="hero-result card">
       <div class="hero-label">20年後の資産評価額</div>
-      <div class="hero-value">¥16,470,000</div>
-      <div class="hero-sub">元本 ¥9,600,000 に対して、運用益 <span class="positive">+¥6,870,000</span>(+71.6%)</div>
+      <div class="hero-value" th:text="${simulatedTotal}">¥16,470,000</div>
+      <div class="hero-sub">元本 <span th:text="${simulatedPrincipal}">¥9,600,000</span> に対して、運用益 <span class="positive" th:text="${simulatedProfit}">+¥6,870,000</span></div>
     </div>
 
     <!-- 推移グラフ -->
@@ -88,23 +89,23 @@
         <dl class="cond-list">
           <div class="cond-row">
             <dt>初期投資額</dt>
-            <dd>¥0</dd>
+            <dd th:text="|¥${#numbers.formatInteger(simulationForm.initialInvestment, 1)}|">¥0</dd>
           </div>
           <div class="cond-row">
             <dt>毎月の積立額</dt>
-            <dd>¥40,000</dd>
+            <dd th:text="|¥${#numbers.formatInteger(simulationForm.monthlyContribution, 1)}|">¥40,000</dd>
           </div>
           <div class="cond-row">
             <dt>積立期間</dt>
-            <dd>20年</dd>
+            <dd th:text="|${simulationForm.years}年|">20年</dd>
           </div>
           <div class="cond-row">
             <dt>想定利回り(年率)</dt>
-            <dd>5.0%</dd>
+            <dd th:text="|${simulationForm.annualReturnRate}%|">5.0%</dd>
           </div>
           <div class="cond-row">
             <dt>投資枠</dt>
-            <dd>つみたて投資枠</dd>
+            <dd th:text="${simulationForm.frame}">つみたて投資枠</dd>
           </div>
         </dl>
       </section>
@@ -138,8 +139,8 @@
             </tr>
             <tr>
               <td class="row-highlight">20年目</td>
-              <td class="num row-highlight">¥9,600,000</td>
-              <td class="num row-highlight">¥16,470,000</td>
+              <td class="num row-highlight" th:text="${simulatedPrincipal}">¥9,600,000</td>
+              <td class="num row-highlight" th:text="${simulatedTotal}">¥16,470,000</td>
             </tr>
           </tbody>
         </table>
@@ -148,8 +149,8 @@
     </div>
 
     <div class="action-row">
-      <button class="btn-outline" type="button">条件を変えて再計算</button>
-      <button class="btn-primary" type="button">この条件で資産を登録</button>
+      <a class="btn-outline" th:href="@{/simulation}">条件を変えて再計算</a>
+      <a class="btn-primary" th:href="@{/password-change}">パスワードを変更する</a>
     </div>
   </main>
 
