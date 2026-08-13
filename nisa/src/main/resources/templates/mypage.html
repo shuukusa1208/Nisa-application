@@ -56,7 +56,7 @@
           </div>
           <div class="meta-row">
             <dt>NISA口座区分</dt>
-            <dd>成長投資枠 + つみたて投資枠</dd>
+            <dd th:text="${accountType}">成長投資枠 + つみたて投資枠</dd>
           </div>
         </dl>
         <button class="btn-outline" type="button">プロフィール写真を変更</button>
@@ -74,9 +74,9 @@
               つみたて投資枠
             </div>
             <div class="quota-bar">
-              <div class="quota-fill" style="width: 62%;"></div>
+              <div class="quota-fill" th:style="|width: ${tPercent}%;|"></div>
             </div>
-            <div class="quota-value">¥744,000 <span class="quota-max">/ ¥1,200,000</span></div>
+            <div class="quota-value" th:text="|${tSum} / ¥1,200,000|">¥744,000 <span class="quota-max">/ ¥1,200,000</span></div>
           </div>
 
           <div class="quota-row">
@@ -85,9 +85,9 @@
               成長投資枠
             </div>
             <div class="quota-bar">
-              <div class="quota-fill quota-fill-gold" style="width: 38%;"></div>
+              <div class="quota-fill quota-fill-gold" th:style="|width: ${gPercent}%;|"></div>
             </div>
-            <div class="quota-value">¥912,000 <span class="quota-max">/ ¥2,400,000</span></div>
+            <div class="quota-value" th:text="|${gSum} / ¥2,400,000|">¥912,000 <span class="quota-max">/ ¥2,400,000</span></div>
           </div>
 
           <p class="quota-note">年間投資枠は毎年1月にリセットされます。生涯投資枠の残りは資産一覧ページでご確認いただけます。</p>

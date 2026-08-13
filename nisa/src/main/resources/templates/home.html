@@ -30,31 +30,39 @@
 
   <main class="page-body">
     <div class="page-heading">
-      <h1>おかえりなさい、<span th:text="${userName}">田中</span>さん</h1>
-      <p class="sub" th:text="${today} + '時点の資産状況です'">2026年7月22日時点の資産状況です</p>
+      <h1 th:if="${userName != null}">おかえりなさい、<span th:text="${userName}">田中</span>さん</h1>
+      <h1 th:unless="${userName != null}">ようこそ、NISA資産管理へ</h1>
+      <p class="sub" th:if="${userName != null}" th:text="${today} + '時点の資産状況です'">2026年7月22日時点の資産状況です</p>
+      <p class="sub" th:unless="${userName != null}">ログインすると、資産評価額や損益を確認できます。</p>
     </div>
 
     <!-- サマリーカード -->
-    <div class="summary-row">
+    <div class="summary-row" th:if="${userName != null}">
       <div class="card summary-card">
         <div class="summary-label">資産評価額</div>
-        <div class="summary-value">¥1,842,600</div>
-        <div class="summary-sub positive">前日比 +¥12,400 (+0.68%)</div>
+        <div class="summary-value" th:text="${assetTotalValue}">¥1,842,600</div>
+        <div class="summary-sub positive" th:text="${assetDailyChange}">前日比 +¥12,400 (+0.68%)</div>
       </div>
       <div class="card summary-card">
         <div class="summary-label">累計投資額</div>
-        <div class="summary-value">¥1,656,000</div>
+        <div class="summary-value" th:text="${assetTotalInvestment}">¥1,656,000</div>
         <div class="summary-sub muted">元本ベース</div>
       </div>
       <div class="card summary-card">
         <div class="summary-label">評価損益</div>
-        <div class="summary-value positive">+¥186,600</div>
-        <div class="summary-sub positive">+11.27%</div>
+        <div class="summary-value positive" th:text="${assetProfit}">+¥186,600</div>
+        <div class="summary-sub positive" th:text="${assetProfitRate}">+11.27%</div>
       </div>
       <div class="card summary-card">
         <div class="summary-label">今年の積立額</div>
-        <div class="summary-value">¥480,000</div>
-        <div class="summary-sub muted">月4万円ペース</div>
+        <div class="summary-value" th:text="${assetYearlyContribution}">¥480,000</div>
+        <div class="summary-sub muted" th:text="${monthlyPaceLabel}">月4万円ペース</div>
+      </div>
+    </div>
+    <div class="summary-row" th:unless="${userName != null}">
+      <div class="card summary-card" style="grid-column:1 / -1; text-align:center;">
+        <div class="summary-label">ログインして個人の資産情報を確認</div>
+        <a th:href="@{/login}" class="btn-primary" style="margin-top:16px;">ログインする</a>
       </div>
     </div>
 

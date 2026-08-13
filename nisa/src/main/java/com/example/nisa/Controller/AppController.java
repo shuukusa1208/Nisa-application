@@ -18,6 +18,8 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
+import java.util.List;
 import java.util.Optional;
 
 @Controller
@@ -37,12 +39,14 @@ public class AppController {
     public String home(@AuthenticationPrincipal UserDetails principal, Model model) {
         addUserInfo(principal, model);
         model.addAttribute("today", LocalDate.now().format(DateTimeFormatter.ofPattern("yyyy年M月d日")));
+        addAssetSummary(principal, model);
         return "home";
     }
 
     @GetMapping("/assets")
     public String assets(@AuthenticationPrincipal UserDetails principal, Model model) {
         addUserInfo(principal, model);
+        addAssetSummary(principal, model);
         model.addAttribute("assets", assetService.listAssets(principal.getUsername()));
         return "assets";
     }
@@ -66,6 +70,7 @@ public class AppController {
     @GetMapping("/simulation")
     public String simulation(@AuthenticationPrincipal UserDetails principal, Model model) {
         addUserInfo(principal, model);
+        addAssetSummary(principal, model);
         model.addAttribute("simulationForm", new SimulationForm());
         addSimulationResult(new SimulationForm(), model);
         return "simulation";
@@ -114,6 +119,7 @@ public class AppController {
     @GetMapping("/mypage")
     public String mypage(@AuthenticationPrincipal UserDetails principal, Model model) {
         addUserInfo(principal, model);
+        addAssetSummary(principal, model);
         Optional<User> userOptional = userMapper.findByEmail(principal.getUsername());
         userOptional.ifPresent(user -> {
             model.addAttribute("registeredAt", user.getCreatedAt() != null ?
@@ -171,6 +177,82 @@ public class AppController {
                 .ifPresent(user -> model.addAttribute("userName", user.getName()));
     }
 
+    private void addAssetSummary(UserDetails principal, Model model) {
+        if (principal == null) {
+            return;
+        }
+        List<AssetForm> assets = assetService.listAssets(principal.getUsername());
+        long totalValue = assets.stream().mapToLong(AssetForm::getCurrentValue).sum();
+        long totalInvestment = assets.stream().mapToLong(AssetForm::getAcquisition).sum();
+        long profit = totalValue - totalInvestment;
+        double profitRate = totalInvestment != 0 ? (double) profit / totalInvestment * 100.0 : 0.0;
+        long yearContribution = calculateCurrentYearContribution(assets);
+        long monthlyPace = yearContribution / 12;
+
+        long tsum = assets.stream()
+                .filter(asset -> "つみたて投資枠".equals(asset.getFrame()))
+                .mapToLong(AssetForm::getAcquisition)
+                .sum();
+        long gsum = assets.stream()
+                .filter(asset -> "成長投資枠".equals(asset.getFrame()))
+                .mapToLong(AssetForm::getAcquisition)
+                .sum();
+        int tsumPercent = (int) Math.min(100, tsum * 100 / 1_200_000);
+        int gsumPercent = (int) Math.min(100, gsum * 100 / 2_400_000);
+        String accountType = determineAccountType(assets);
+
+        model.addAttribute("assetTotalValue", String.format("¥%,d", totalValue));
+        model.addAttribute("assetTotalInvestment", String.format("¥%,d", totalInvestment));
+        model.addAttribute("assetProfit", String.format("%s¥%,d", profit >= 0 ? "+" : "", profit));
+        model.addAttribute("assetProfitRate", String.format("%+.2f%%", profitRate));
+        model.addAttribute("assetDailyChange", "+¥0 (+0.00%)");
+        model.addAttribute("assetYearlyContribution", String.format("¥%,d", yearContribution));
+        model.addAttribute("monthlyPaceLabel", String.format("月%sペース", formatMonthlyPace(monthlyPace)));
+        model.addAttribute("tSum", String.format("¥%,d", tsum));
+        model.addAttribute("gSum", String.format("¥%,d", gsum));
+        model.addAttribute("tPercent", tsumPercent);
+        model.addAttribute("gPercent", gsumPercent);
+        model.addAttribute("accountType", accountType);
+    }
+
+    private String determineAccountType(List<AssetForm> assets) {
+        boolean hasTsumitate = assets.stream().anyMatch(asset -> "つみたて投資枠".equals(asset.getFrame()));
+        boolean hasGrowth = assets.stream().anyMatch(asset -> "成長投資枠".equals(asset.getFrame()));
+        if (hasTsumitate && hasGrowth) {
+            return "成長投資枠 + つみたて投資枠";
+        }
+        if (hasTsumitate) {
+            return "つみたて投資枠";
+        }
+        if (hasGrowth) {
+            return "成長投資枠";
+        }
+        return "-";
+    }
+
+    private long calculateCurrentYearContribution(List<AssetForm> assets) {
+        int currentYear = LocalDate.now().getYear();
+        return assets.stream()
+                .filter(asset -> asset.getPurchaseDate() != null)
+                .filter(asset -> {
+                    try {
+                        LocalDate purchaseDate = LocalDate.parse(asset.getPurchaseDate());
+                        return purchaseDate.getYear() == currentYear;
+                    } catch (DateTimeParseException e) {
+                        return false;
+                    }
+                })
+                .mapToLong(AssetForm::getAcquisition)
+                .sum();
+    }
+
+    private String formatMonthlyPace(long monthlyPace) {
+        if (monthlyPace % 10000 == 0) {
+            return String.format("%d万円", monthlyPace / 10000);
+        }
+        return String.format("%d円", monthlyPace);
+    }
+
     private void addSimulationResult(SimulationForm form, Model model) {
         double monthlyRate = form.getAnnualReturnRate() / 100.0 / 12.0;
         int months = form.getYears() * 12;
@@ -187,5 +269,23 @@ public class AppController {
         model.addAttribute("simulatedTotal", String.format("¥%,d", resultTotal));
         model.addAttribute("simulatedPrincipal", String.format("¥%,d", principalTotal));
         model.addAttribute("simulatedProfit", String.format("%s¥%,d", profit >= 0 ? "+" : "", profit));
+        addSimulationBreakdown(form, model);
+    }
+
+    private void addSimulationBreakdown(SimulationForm form, Model model) {
+        double monthlyRate = form.getAnnualReturnRate() / 100.0 / 12.0;
+        int[] targetYears = new int[]{5, 10, 15, 20};
+        for (int year : targetYears) {
+            int months = year * 12;
+            double value = form.getInitialInvestment() * Math.pow(1 + monthlyRate, months);
+            if (monthlyRate > 0) {
+                value += form.getMonthlyContribution() * (Math.pow(1 + monthlyRate, months) - 1) / monthlyRate;
+            } else {
+                value += form.getMonthlyContribution() * months;
+            }
+            long principal = form.getInitialInvestment() + form.getMonthlyContribution() * (long) months;
+            model.addAttribute("year" + year + "Principal", String.format("¥%,d", principal));
+            model.addAttribute("year" + year + "Value", String.format("¥%,d", Math.round(value)));
+        }
     }
 }

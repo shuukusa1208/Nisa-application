@@ -38,8 +38,7 @@
 
     <!-- メイン結果 -->
     <div class="hero-result card">
-      <div class="hero-label">20年後の資産評価額</div>
-      <div class="hero-value" th:text="${simulatedTotal}">¥16,470,000</div>
+        <div class="hero-label" th:text="|${simulationForm.years}年後の資産評価額|">20年後の資産評価額</div>
       <div class="hero-sub">元本 <span th:text="${simulatedPrincipal}">¥9,600,000</span> に対して、運用益 <span class="positive" th:text="${simulatedProfit}">+¥6,870,000</span></div>
     </div>
 
@@ -124,21 +123,21 @@
           <tbody>
             <tr>
               <td>5年目</td>
-              <td class="num">¥2,400,000</td>
-              <td class="num">¥2,721,000</td>
+              <td class="num" th:text="${year5Principal}">¥2,400,000</td>
+              <td class="num" th:text="${year5Value}">¥2,721,000</td>
             </tr>
             <tr>
               <td>10年目</td>
-              <td class="num">¥4,800,000</td>
-              <td class="num">¥6,220,000</td>
+              <td class="num" th:text="${year10Principal}">¥4,800,000</td>
+              <td class="num" th:text="${year10Value}">¥6,220,000</td>
             </tr>
             <tr>
               <td>15年目</td>
-              <td class="num">¥7,200,000</td>
-              <td class="num">¥10,758,000</td>
+              <td class="num" th:text="${year15Principal}">¥7,200,000</td>
+              <td class="num" th:text="${year15Value}">¥10,758,000</td>
             </tr>
             <tr>
-              <td class="row-highlight">20年目</td>
+              <td class="row-highlight" th:text="${simulationForm.years} + '年目'">20年目</td>
               <td class="num row-highlight" th:text="${simulatedPrincipal}">¥9,600,000</td>
               <td class="num row-highlight" th:text="${simulatedTotal}">¥16,470,000</td>
             </tr>

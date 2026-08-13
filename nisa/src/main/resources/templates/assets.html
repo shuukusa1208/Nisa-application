@@ -41,15 +41,19 @@
     <div class="summary-row">
       <div class="card summary-card">
         <div class="summary-label">評価額合計</div>
-        <div class="summary-value">¥1,842,600</div>
+        <div class="summary-value" th:text="${assetTotalValue}">¥1,842,600</div>
       </div>
       <div class="card summary-card">
         <div class="summary-label">投資元本合計</div>
-        <div class="summary-value">¥1,656,000</div>
+        <div class="summary-value" th:text="${assetTotalInvestment}">¥1,656,000</div>
       </div>
       <div class="card summary-card">
         <div class="summary-label">評価損益</div>
-        <div class="summary-value positive">+¥186,600 (+11.27%)</div>
+        <div class="summary-value positive" th:text="${assetProfit}">+¥186,600</div>
+      </div>
+      <div class="card summary-card">
+        <div class="summary-label">損益率</div>
+        <div class="summary-value positive" th:text="${assetProfitRate}">+11.27%</div>
       </div>
     </div>
 
