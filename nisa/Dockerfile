@@ -7,6 +7,7 @@ RUN mvn clean package -DskipTests
 # 実行用ステージ
 FROM eclipse-temurin:17-jdk
 WORKDIR /app
-COPY --from=build /app/target/*.jar app.jar
+# target フォルダ内の *.jar または *.war を検索して app.jar / app.war としてコピー
+COPY --from=build /app/target/nisa-*.??? app.file
 EXPOSE 8080
-ENTRYPOINT ["java", "-jar", "app.jar"]
+ENTRYPOINT ["java", "-jar", "app.file"]
