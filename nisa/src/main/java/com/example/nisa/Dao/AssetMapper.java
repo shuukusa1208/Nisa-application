@@ -8,6 +8,8 @@ import org.springframework.stereotype.Repository;
 
 import com.example.nisa.Entity.Asset;
 
+
+//資産情報のDAO　JPAでデータベース操作を行う
 @Repository
 public interface AssetMapper extends JpaRepository<Asset, Long> {
 
