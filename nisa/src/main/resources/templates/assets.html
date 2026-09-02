@@ -90,18 +90,31 @@
           <tr th:each="asset : ${assets}">
             <td>
               <div class="asset-name" th:text="${asset.name}">eMAXIS Slim 全世界株式</div>
-              <div class="asset-code" th:text="${asset.code}">オール・カントリー</div>
+              <!-- codeがnullの場合でも空文字にしてエラーを防ぐ -->
+              <div class="asset-code" th:text="${asset.code ?: ''}">オール・カントリー</div>
             </td>
             <td><span class="badge" th:text="${asset.frame}">つみたて</span></td>
-            <td class="num" th:text="${#numbers.formatInteger(asset.quantity, '###,###')} + '口'">42,180口</td>
-            <td class="num" th:text="'¥' + ${#numbers.formatInteger(asset.acquisition, '###,###')}">¥785,000</td>
-            <td class="num" th:text="'¥' + ${#numbers.formatInteger(asset.currentValue, '###,###')}">¥862,400</td>
-            <td class="num" th:with="profit=${asset.currentValue - asset.acquisition}">
-              <span th:if="${profit >= 0}" th:text="'+' + '¥' + ${#numbers.formatInteger(profit, '###,###')}"></span>
-              <span th:unless="${profit >= 0}" th:text="'¥' + ${#numbers.formatInteger(profit, '###,###')}"></span>
+            
+            <!-- quantityがnullなら0をセットしてフォーマット -->
+            <td class="num" th:text="${#numbers.formatInteger(asset.quantity ?: 0, 1, 'COMMA') + '口'}">42,180口</td>
+            
+            <!-- acquisitionがnullなら0をセットしてフォーマット -->
+            <td class="num" th:text="${'¥' + #numbers.formatInteger(asset.acquisition ?: 0, 1, 'COMMA')}">¥785,000</td>
+            
+            <!-- currentValueがnullなら0をセットしてフォーマット -->
+            <td class="num" th:text="${'¥' + #numbers.formatInteger(asset.currentValue ?: 0, 1, 'COMMA')}">¥862,400</td>
+            
+            <!-- nullチェックを行いつつ計算 -->
+            <td class="num" th:with="profit=${(asset.currentValue ?: 0) - (asset.acquisition ?: 0)}">
+              <span th:if="${profit >= 0}" th:text="${'+¥' + #numbers.formatInteger(profit, 1, 'COMMA')}"></span>
+              <span th:unless="${profit >= 0}" th:text="${'-¥' + #numbers.formatInteger(-profit, 1, 'COMMA')}"></span>
             </td>
             <td class="actions-col">
-              <a th:href="@{/asset-edit}" class="link-edit">編集</a>
+              <a th:href="@{/asset-edit(id=${asset.id})}" class="link-edit">編集</a>
+              <form th:action="@{/asset-delete/{id}(id=${asset.id})}" method="post" style="display:inline">
+                <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
+                <button type="submit" class="link-edit" onclick="return confirm('この資産を削除しますか？');">削除</button>
+              </form>
             </td>
           </tr>
         </tbody>

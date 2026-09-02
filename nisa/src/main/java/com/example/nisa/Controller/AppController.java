@@ -1,10 +1,11 @@
 package com.example.nisa.Controller;
 
-import com.example.nisa.Dao.UserMapper;
-import com.example.nisa.Entity.User;
-import com.example.nisa.Form.AssetForm;
-import com.example.nisa.Form.SimulationForm;
-import com.example.nisa.Service.AssetService;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
+import java.util.List;
+import java.util.Optional;
+
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -13,14 +14,15 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
-import java.time.format.DateTimeParseException;
-import java.util.List;
-import java.util.Optional;
+import com.example.nisa.Dao.UserMapper;
+import com.example.nisa.Entity.User;
+import com.example.nisa.Form.AssetForm;
+import com.example.nisa.Form.SimulationForm;
+import com.example.nisa.Service.AssetService;
 
 @Controller
 public class AppController {
@@ -35,6 +37,7 @@ public class AppController {
         this.passwordEncoder = passwordEncoder;
     }
 
+    //NISA枠の利用状況の処理の流れ
     @GetMapping({"/", "/home"})
     public String home(@AuthenticationPrincipal UserDetails principal, Model model) {
         addUserInfo(principal, model);
@@ -52,9 +55,13 @@ public class AppController {
     }
 
     @GetMapping("/asset-edit")
-    public String assetEdit(@AuthenticationPrincipal UserDetails principal, Model model) {
+    public String assetEdit(@AuthenticationPrincipal UserDetails principal,
+                            @RequestParam(required = false) Long id,
+                            Model model) {
         addUserInfo(principal, model);
-        model.addAttribute("assetForm", new AssetForm());
+        model.addAttribute("assetForm", id == null
+                ? new AssetForm()
+                : assetService.findAsset(principal.getUsername(), id));
         return "asset-edit";
     }
 
@@ -64,6 +71,15 @@ public class AppController {
                             RedirectAttributes redirectAttributes) {
         assetService.saveAsset(principal.getUsername(), assetForm);
         redirectAttributes.addFlashAttribute("assetSaved", true);
+        return "redirect:/assets";
+    }
+
+    @PostMapping("/asset-delete/{id}")
+    public String deleteAsset(@AuthenticationPrincipal UserDetails principal,
+                              @PathVariable Long id,
+                              RedirectAttributes redirectAttributes) {
+        assetService.deleteAsset(principal.getUsername(), id);
+        redirectAttributes.addFlashAttribute("assetDeleted", true);
         return "redirect:/assets";
     }
 

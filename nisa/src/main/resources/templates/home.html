@@ -73,9 +73,11 @@
         <div class="card-header-row">
           <h2 class="card-title">資産推移</h2>
           <div class="range-tabs">
-            <button class="tab" type="button">1ヶ月</button>
-            <button class="tab active" type="button">1年</button>
-            <button class="tab" type="button">全期間</button>
+            <button class="tab" type="button" data-range="1m">今月</button>
+            <button class="tab active" type="button" data-range="3m">3ヶ月</button>
+            <button class="tab" type="button" data-range="6m">6ヶ月</button>
+            <button class="tab" type="button" data-range="1y">1年</button>
+            <button class="tab" type="button" data-range="all">全期間</button>
           </div>
         </div>
 
@@ -85,6 +87,14 @@
             <line class="grid-line" x1="0" y1="140" x2="640" y2="140" />
             <line class="grid-line" x1="0" y1="80" x2="640" y2="80" />
             <line class="grid-line" x1="0" y1="20" x2="640" y2="20" />
+
+            <!-- 日付ラベル -->
+            <text class="chart-date-label" x="10" y="225" font-size="12" fill="#999">
+              <tspan id="chart-start-date">2026/8/1</tspan>
+            </text>
+            <text class="chart-date-label" x="600" y="225" text-anchor="end" font-size="12" fill="#999">
+              <tspan id="chart-end-date">2026/9/1</tspan>
+            </text>
 
             <path class="growth-fill" d="M0,180 C80,175 140,165 200,150 C280,130 320,95 400,70 C460,50 520,35 640,15 L640,240 L0,240 Z" fill="url(#homeGrowthGradient)" />
             <path class="growth-line" d="M0,180 C80,175 140,165 200,150 C280,130 320,95 400,70 C460,50 520,35 640,15" />
@@ -117,9 +127,9 @@
               つみたて投資枠
             </div>
             <div class="quota-bar">
-              <div class="quota-fill" style="width: 62%;"></div>
+              <div class="quota-fill" th:style="'width: ' + ${tPercent} + '%;'"></div>
             </div>
-            <div class="quota-value">62%</div>
+            <div class="quota-value" th:text="${tPercent} + '%'">62%</div>
           </div>
 
           <div class="quota-row">
@@ -128,9 +138,9 @@
               成長投資枠
             </div>
             <div class="quota-bar">
-              <div class="quota-fill quota-fill-gold" style="width: 38%;"></div>
+              <div class="quota-fill quota-fill-gold" th:style="'width: ' + ${gPercent} + '%;'"></div>
             </div>
-            <div class="quota-value">38%</div>
+            <div class="quota-value" th:text="${gPercent} + '%'">38%</div>
           </div>
 
           <a th:href="@{/mypage}" class="link-arrow">マイページで詳細を見る →</a>
@@ -196,6 +206,69 @@
     </div>
 
   </main>
+
+  <script>
+    // 資産推移グラフの日付範囲タブ機能
+    document.querySelectorAll('.range-tabs .tab').forEach(button => {
+      button.addEventListener('click', function() {
+        // アクティブなタブを更新
+        document.querySelectorAll('.range-tabs .tab').forEach(btn => btn.classList.remove('active'));
+        this.classList.add('active');
+
+        // 日付範囲を更新
+        const range = this.dataset.range;
+        const today = new Date();
+        let startDate = new Date();
+        let endDate = new Date(today);
+
+        switch(range) {
+          case '1m':
+            startDate = new Date(today.getFullYear(), today.getMonth(), 1);
+            break;
+          case '3m':
+            startDate = new Date(today.getFullYear(), today.getMonth() - 3, today.getDate());
+            break;
+          case '6m':
+            startDate = new Date(today.getFullYear(), today.getMonth() - 6, today.getDate());
+            break;
+          case '1y':
+            startDate = new Date(today.getFullYear() - 1, today.getMonth(), today.getDate());
+            break;
+          case 'all':
+            startDate = new Date(2024, 0, 1); // デフォルト開始日
+            break;
+        }
+
+        // 日付をYYYY/MM/DD形式でフォーマット
+        const formatDate = (date) => {
+          const year = date.getFullYear();
+          const month = String(date.getMonth() + 1).padStart(2, '0');
+          const day = String(date.getDate()).padStart(2, '0');
+          return `${year}/${month}/${day}`;
+        };
+
+        // SVG内の日付ラベルを更新
+        document.getElementById('chart-start-date').textContent = formatDate(startDate);
+        document.getElementById('chart-end-date').textContent = formatDate(endDate);
+      });
+    });
+
+    // 初期表示時に3ヶ月のラベルを設定
+    document.addEventListener('DOMContentLoaded', function() {
+      const today = new Date();
+      const startDate = new Date(today.getFullYear(), today.getMonth() - 3, today.getDate());
+      
+      const formatDate = (date) => {
+        const year = date.getFullYear();
+        const month = String(date.getMonth() + 1).padStart(2, '0');
+        const day = String(date.getDate()).padStart(2, '0');
+        return `${year}/${month}/${day}`;
+      };
+
+      document.getElementById('chart-start-date').textContent = formatDate(startDate);
+      document.getElementById('chart-end-date').textContent = formatDate(today);
+    });
+  </script>
 
 </body>
 </html>

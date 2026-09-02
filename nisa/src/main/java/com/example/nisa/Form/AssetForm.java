@@ -1,7 +1,10 @@
 package com.example.nisa.Form;
 
+
+//資産情報のFormクラス
 public class AssetForm {
 
+    private Long id;
     private String name;
     private String code;
     private long quantity;
@@ -13,6 +16,14 @@ public class AssetForm {
 
     public AssetForm() {
         this.frame = "つみたて投資枠";
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public String getName() {
