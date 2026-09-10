@@ -1,8 +1,11 @@
 package com.example.nisa.Form;
 
+import java.time.LocalDate;
+
 public class SimulationForm {
 
     private long initialInvestment = 0;
+    private String initialInvestmentDate = LocalDate.now().toString();
     private long monthlyContribution = 40000;
     private int years = 20;
     private double annualReturnRate = 5.0;
@@ -14,6 +17,14 @@ public class SimulationForm {
 
     public void setInitialInvestment(long initialInvestment) {
         this.initialInvestment = initialInvestment;
+    }
+
+    public String getInitialInvestmentDate() {
+        return initialInvestmentDate;
+    }
+
+    public void setInitialInvestmentDate(String initialInvestmentDate) {
+        this.initialInvestmentDate = initialInvestmentDate;
     }
 
     public long getMonthlyContribution() {

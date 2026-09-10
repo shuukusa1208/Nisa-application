@@ -105,6 +105,7 @@ public class AppController {
     @GetMapping("/result")
     public String result(@AuthenticationPrincipal UserDetails principal,
                          @RequestParam(defaultValue = "0") long initialInvestment,
+                         @RequestParam(required = false) String initialInvestmentDate,
                          @RequestParam(defaultValue = "40000") long monthlyContribution,
                          @RequestParam(defaultValue = "20") int years,
                          @RequestParam(defaultValue = "5.0") double annualReturnRate,
@@ -113,6 +114,9 @@ public class AppController {
         addUserInfo(principal, model);
         SimulationForm simulationForm = new SimulationForm();
         simulationForm.setInitialInvestment(initialInvestment);
+        if (initialInvestmentDate != null && !initialInvestmentDate.isBlank()) {
+            simulationForm.setInitialInvestmentDate(initialInvestmentDate);
+        }
         simulationForm.setMonthlyContribution(monthlyContribution);
         simulationForm.setYears(years);
         simulationForm.setAnnualReturnRate(annualReturnRate);
@@ -270,6 +274,8 @@ public class AppController {
     }
 
     private void addSimulationResult(SimulationForm form, Model model) {
+        LocalDate startDate = parseSimulationDate(form.getInitialInvestmentDate());
+        LocalDate endDate = startDate.plusYears(form.getYears());
         double monthlyRate = form.getAnnualReturnRate() / 100.0 / 12.0;
         int months = form.getYears() * 12;
         double futureValue = form.getInitialInvestment() * Math.pow(1 + monthlyRate, months);
@@ -285,7 +291,22 @@ public class AppController {
         model.addAttribute("simulatedTotal", String.format("¥%,d", resultTotal));
         model.addAttribute("simulatedPrincipal", String.format("¥%,d", principalTotal));
         model.addAttribute("simulatedProfit", String.format("%s¥%,d", profit >= 0 ? "+" : "", profit));
+        model.addAttribute("simulationStartDate", formatSimulationDate(startDate));
+        model.addAttribute("simulationEndDate", formatSimulationDate(endDate));
+        model.addAttribute("simulationPeriodLabel", formatSimulationDate(startDate) + "から" + formatSimulationDate(endDate) + "まで");
         addSimulationBreakdown(form, model);
+    }
+
+    private LocalDate parseSimulationDate(String value) {
+        try {
+            return value == null || value.isBlank() ? LocalDate.now() : LocalDate.parse(value);
+        } catch (DateTimeParseException e) {
+            return LocalDate.now();
+        }
+    }
+
+    private String formatSimulationDate(LocalDate date) {
+        return date.format(DateTimeFormatter.ofPattern("yyyy年M月d日"));
     }
 
     private void addSimulationBreakdown(SimulationForm form, Model model) {

@@ -52,6 +52,12 @@
           </div>
 
           <div class="field">
+            <label for="initial-date">初期投資日</label>
+            <input type="date" id="initial-date" th:field="*{initialInvestmentDate}">
+            <p class="field-hint">この日を起点に、積立期間終了時点まで試算します</p>
+          </div>
+
+          <div class="field">
             <label for="monthly">毎月の積立額</label>
             <div class="input-suffix">
               <input type="number" id="monthly" th:field="*{monthlyContribution}" min="0" step="1000">
@@ -103,7 +109,7 @@
         <h2 class="card-title">試算結果(プレビュー)</h2>
 
         <div class="result-figure">
-          <div class="result-label">20年後の資産評価額</div>
+          <div class="result-label" th:text="${simulationPeriodLabel} ?: '開始日から積立期間終了までの資産評価額'">2026年9月10日から2046年9月10日までの資産評価額</div>
           <div class="result-value" th:text="${simulatedTotal}">¥16,470,000</div>
         </div>
 
@@ -144,7 +150,7 @@
         </dl>
 
         <a class="link-arrow"
-           th:href="@{/result(initialInvestment=${simulationForm.initialInvestment}, monthlyContribution=${simulationForm.monthlyContribution}, years=${simulationForm.years}, annualReturnRate=${simulationForm.annualReturnRate}, frame=${simulationForm.frame})}">
+           th:href="@{/result(initialInvestment=${simulationForm.initialInvestment}, initialInvestmentDate=${simulationForm.initialInvestmentDate}, monthlyContribution=${simulationForm.monthlyContribution}, years=${simulationForm.years}, annualReturnRate=${simulationForm.annualReturnRate}, frame=${simulationForm.frame})}">
           詳しい試算結果を見る →
         </a>
       </section>

@@ -33,12 +33,12 @@
 
     <div class="page-heading">
       <h1>試算結果</h1>
-      <p class="sub" th:text="|毎月${#numbers.formatInteger(simulationForm.monthlyContribution, 1)}円を年率${simulationForm.annualReturnRate}％で${simulationForm.years}年間積み立てた場合|">毎月40,000円を年率5.0%で20年間積み立てた場合</p>
+      <p class="sub" th:text="|${simulationStartDate}から${simulationEndDate}まで、毎月${#numbers.formatInteger(simulationForm.monthlyContribution, 1)}円を年率${simulationForm.annualReturnRate}％で積み立てた場合|">2026年9月10日から2046年9月10日まで、毎月40,000円を年率5.0%で積み立てた場合</p>
     </div>
 
     <!-- メイン結果 -->
     <div class="hero-result card">
-        <div class="hero-label" th:text="|${simulationForm.years}年後の資産評価額|">20年後の資産評価額</div>
+        <div class="hero-label" th:text="|${simulationPeriodLabel}の資産評価額|">2026年9月10日から2046年9月10日までの資産評価額</div>
       <div class="hero-sub">元本 <span th:text="${simulatedPrincipal}">¥9,600,000</span> に対して、運用益 <span class="positive" th:text="${simulatedProfit}">+¥6,870,000</span></div>
     </div>
 
@@ -91,6 +91,14 @@
             <dd th:text="|¥${#numbers.formatInteger(simulationForm.initialInvestment, 1)}|">¥0</dd>
           </div>
           <div class="cond-row">
+            <dt>初期投資日</dt>
+            <dd th:text="${simulationStartDate}">2026年9月10日</dd>
+          </div>
+          <div class="cond-row">
+            <dt>積立期間終了日</dt>
+            <dd th:text="${simulationEndDate}">2046年9月10日</dd>
+          </div>
+          <div class="cond-row">
             <dt>毎月の積立額</dt>
             <dd th:text="|¥${#numbers.formatInteger(simulationForm.monthlyContribution, 1)}|">¥40,000</dd>
           </div>
@@ -137,7 +145,7 @@
               <td class="num" th:text="${year15Value}">¥10,758,000</td>
             </tr>
             <tr>
-              <td class="row-highlight" th:text="${simulationForm.years} + '年目'">20年目</td>
+              <td class="row-highlight" th:text="${simulationForm.years + '年目'}">20年目</td>
               <td class="num row-highlight" th:text="${simulatedPrincipal}">¥9,600,000</td>
               <td class="num row-highlight" th:text="${simulatedTotal}">¥16,470,000</td>
             </tr>
