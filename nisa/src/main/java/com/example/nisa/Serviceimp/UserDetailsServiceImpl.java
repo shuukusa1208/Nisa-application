@@ -21,6 +21,7 @@ import java.util.Collections;
 @Service
 public class UserDetailsServiceImpl implements UserDetailsService {
 
+    //UserMapperでDBからユーザー情報を習得するインスタンス
     private final UserMapper userMapper;
 
     // コンストラクタインジェクション。Spring BootがUserMapperを自動で渡してくれる。
