@@ -22,3 +22,15 @@ CREATE TABLE IF NOT EXISTS nisa_quotas (
     UNIQUE KEY uk_nisa_quotas_user (user_id),
     CONSTRAINT fk_nisa_quotas_user FOREIGN KEY (user_id) REFERENCES users (id)
 );
+
+CREATE TABLE IF NOT EXISTS password_reset_tokens (
+    id BIGINT NOT NULL AUTO_INCREMENT,
+    token VARCHAR(100) NOT NULL,
+    user_id BIGINT NOT NULL,
+    expires_at DATETIME NOT NULL,
+    used BOOLEAN NOT NULL DEFAULT FALSE,
+    PRIMARY KEY (id),
+    UNIQUE KEY uk_password_reset_token (token),
+    UNIQUE KEY uk_password_reset_user (user_id),
+    CONSTRAINT fk_password_reset_user FOREIGN KEY (user_id) REFERENCES users (id)
+);

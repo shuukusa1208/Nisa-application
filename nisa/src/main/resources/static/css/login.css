@@ -258,6 +258,71 @@ body {
 .submit-btn:hover { background: var(--sage-500); }
 .submit-btn:focus-visible { outline: 2px solid var(--gold-400); outline-offset: 2px; }
 
+/* ---------- パスワード再設定画面 ---------- */
+.reset-page {
+  min-height: 100vh;
+  background: var(--ivory-100);
+  display: grid;
+  place-items: center;
+  padding: 32px 20px;
+}
+
+.reset-card {
+  width: min(100%, 420px);
+  background: #FFFFFF;
+  padding: 36px;
+  border: 1px solid #D8D2C2;
+  border-radius: 10px;
+  box-shadow: 0 16px 40px rgba(11, 18, 32, 0.08);
+}
+
+.reset-card h1 {
+  font-family: 'Noto Serif JP', serif;
+  font-size: 24px;
+  color: var(--text-dark);
+  margin-bottom: 8px;
+}
+
+.reset-card .sub { margin-bottom: 24px; }
+
+.success-message {
+  background: #EEF6EF;
+  border: 1px solid #B8D2BA;
+  color: #35603A;
+  font-size: 13px;
+  line-height: 1.6;
+  padding: 10px 14px;
+  border-radius: 6px;
+  margin-bottom: 20px;
+}
+
+.reset-link-box {
+  background: #F7F3E9;
+  border: 1px solid #D8C59A;
+  color: var(--text-dark);
+  font-size: 13px;
+  line-height: 1.6;
+  padding: 12px 14px;
+  border-radius: 6px;
+  margin-bottom: 20px;
+}
+
+.reset-link-box strong,
+.reset-link-box a,
+.reset-link-box small { display: block; }
+
+.reset-link-box a {
+  color: var(--sage-500);
+  overflow-wrap: anywhere;
+  margin: 4px 0;
+}
+
+.reset-link-box small { color: #6B7280; }
+
+@media (max-width: 600px) {
+  .reset-card { padding: 28px 22px; }
+}
+
 .signup-hint {
   text-align: center;
   font-size: 13px;

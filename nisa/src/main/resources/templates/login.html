@@ -74,11 +74,13 @@
               <input type="checkbox" name="remember-me">
               ログイン状態を保持
             </label>
-            <a href="#">パスワードをお忘れですか？</a>
+            <a th:href="@{/password-reset}">パスワードをお忘れですか？</a>
           </div>
 
           <button type="submit" class="submit-btn">ログイン</button>
         </form>
+
+        <div class="alert" th:if="${resetCompleted}">パスワードを再設定しました。新しいパスワードでログインしてください。</div>
 
         <p class="signup-hint">アカウントをお持ちでない方は <a href="/signup">新規登録</a></p>
       </div>
