@@ -22,7 +22,6 @@
     </nav>
     <div class="header-right">
       <div class="user-chip">
-        <div class="avatar" th:text="${userName != null ? userName.substring(0, 1) : 'N'}">田</div>
         <span class="user-name" th:text="${userName}">田中 太郎</span>
       </div>
     </div>
@@ -127,9 +126,9 @@
               つみたて投資枠
             </div>
             <div class="quota-bar">
-              <div class="quota-fill" th:style="'width: ' + ${tPercent} + '%;'"></div>
+              <div class="quota-fill" th:style="|width: ${tPercent}%;|"></div>
             </div>
-            <div class="quota-value" th:text="${tPercent} + '%'">62%</div>
+            <div class="quota-value" th:text="|${tPercent}%|">62%</div>
           </div>
 
           <div class="quota-row">
@@ -138,9 +137,9 @@
               成長投資枠
             </div>
             <div class="quota-bar">
-              <div class="quota-fill quota-fill-gold" th:style="'width: ' + ${gPercent} + '%;'"></div>
+              <div class="quota-fill quota-fill-gold" th:style="|width: ${gPercent}%;|"></div>
             </div>
-            <div class="quota-value" th:text="${gPercent} + '%'">38%</div>
+            <div class="quota-value" th:text="|${gPercent}%|">38%</div>
           </div>
 
           <a th:href="@{/mypage}" class="link-arrow">マイページで詳細を見る →</a>

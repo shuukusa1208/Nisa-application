@@ -22,7 +22,6 @@
     </nav>
     <div class="header-right">
       <div class="user-chip">
-        <div class="avatar" th:text="${userName != null ? userName.substring(0, 1) : 'N'}">田</div>
         <span class="user-name" th:text="${userName}">田中 太郎</span>
       </div>
     </div>
@@ -39,7 +38,6 @@
       <!-- 左カラム：プロフィールカード -->
       <section class="card profile-card">
         <div class="profile-top">
-          <div class="avatar-lg">田</div>
           <div>
             <div class="profile-name" th:text="${userName}">田中 太郎</div>
             <div class="profile-email" th:text="${userEmail}">taro.tanaka@example.com</div>
@@ -59,7 +57,6 @@
             <dd th:text="${accountType}">成長投資枠 + つみたて投資枠</dd>
           </div>
         </dl>
-        <button class="btn-outline" type="button">プロフィール写真を変更</button>
       </section>
 
       <!-- 右カラム：NISA枠利用状況 + アカウント設定 -->
@@ -67,6 +64,19 @@
 
         <section class="card">
           <h2 class="card-title">NISA枠の利用状況</h2>
+
+          <form th:action="@{/mypage/nisa-quota}" method="post" th:object="${nisaQuotaForm}" class="quota-form">
+            <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
+            <div class="field">
+              <label for="tsumitate-used">つみたて投資枠の利用額</label>
+              <input type="number" id="tsumitate-used" th:field="*{tsumitateUsed}" min="0" step="1000">
+            </div>
+            <div class="field">
+              <label for="growth-used">成長投資枠の利用額</label>
+              <input type="number" id="growth-used" th:field="*{growthUsed}" min="0" step="1000">
+            </div>
+            <button type="submit" class="btn-outline">利用額を修正</button>
+          </form>
 
           <div class="quota-row">
             <div class="quota-label">

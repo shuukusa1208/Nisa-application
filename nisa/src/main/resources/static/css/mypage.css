@@ -74,19 +74,6 @@ body {
   gap: 10px;
 }
 
-.avatar {
-  width: 32px;
-  height: 32px;
-  border-radius: 50%;
-  background: var(--sage-500);
-  color: var(--ivory-100);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 13px;
-  font-weight: 700;
-}
-
 .user-name {
   font-size: 13px;
   color: var(--ivory-100);
@@ -142,20 +129,6 @@ body {
   align-items: center;
   gap: 14px;
   margin-bottom: 24px;
-}
-
-.avatar-lg {
-  width: 56px;
-  height: 56px;
-  border-radius: 50%;
-  background: var(--sage-500);
-  color: var(--ivory-100);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 20px;
-  font-weight: 700;
-  flex-shrink: 0;
 }
 
 .profile-name {
@@ -380,4 +353,43 @@ body {
     gap: 8px;
   }
   .quota-value { text-align: left; }
+}
+
+.quota-form {
+  display: grid;
+  grid-template-columns: 1fr 1fr auto;
+  gap: 12px;
+  align-items: end;
+  margin-bottom: 24px;
+  padding-bottom: 20px;
+  border-bottom: 1px solid var(--border-soft);
+}
+
+.quota-form .field { margin: 0; }
+
+.quota-form label {
+  display: block;
+  font-size: 12px;
+  font-weight: 500;
+  margin-bottom: 6px;
+}
+
+.quota-form input {
+  width: 100%;
+  padding: 9px 10px;
+  border: 1px solid var(--border-soft);
+  border-radius: 6px;
+  font: inherit;
+}
+
+.quota-form input:focus {
+  outline: none;
+  border-color: var(--sage-500);
+  box-shadow: 0 0 0 3px rgba(122, 158, 126, 0.18);
+}
+
+@media (max-width: 860px) {
+  .quota-form {
+    grid-template-columns: 1fr;
+  }
 }

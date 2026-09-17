@@ -19,8 +19,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.example.nisa.Dao.UserMapper;
+import com.example.nisa.Dao.NisaQuotaMapper;
+import com.example.nisa.Entity.NisaQuota;
 import com.example.nisa.Entity.User;
 import com.example.nisa.Form.AssetForm;
+import com.example.nisa.Form.NisaQuotaForm;
 import com.example.nisa.Form.SimulationForm;
 import com.example.nisa.Service.AssetService;
 
@@ -29,11 +32,14 @@ public class AppController {
 
     private final UserMapper userMapper;
     private final AssetService assetService;
+    private final NisaQuotaMapper nisaQuotaMapper;
     private final PasswordEncoder passwordEncoder;
 
-    public AppController(UserMapper userMapper, AssetService assetService, PasswordEncoder passwordEncoder) {
+    public AppController(UserMapper userMapper, AssetService assetService,
+                         NisaQuotaMapper nisaQuotaMapper, PasswordEncoder passwordEncoder) {
         this.userMapper = userMapper;
         this.assetService = assetService;
+        this.nisaQuotaMapper = nisaQuotaMapper;
         this.passwordEncoder = passwordEncoder;
     }
 
@@ -145,8 +151,25 @@ public class AppController {
             model.addAttribute("registeredAt", user.getCreatedAt() != null ?
                     user.getCreatedAt().format(DateTimeFormatter.ofPattern("yyyy年M月d日")) : "-");
         });
+        model.addAttribute("nisaQuotaForm", getNisaQuotaForm(principal.getUsername()));
         return "mypage";
     }
+
+        @PostMapping("/mypage/nisa-quota")
+        public String updateNisaQuota(@AuthenticationPrincipal UserDetails principal,
+                      @ModelAttribute NisaQuotaForm quotaForm,
+                      RedirectAttributes redirectAttributes) {
+        User user = userMapper.findByEmail(principal.getUsername())
+            .orElseThrow(() -> new IllegalArgumentException("ユーザー情報が見つかりません"));
+        NisaQuota quota = nisaQuotaMapper.findByUserEmail(principal.getUsername())
+            .orElseGet(NisaQuota::new);
+        quota.setUser(user);
+        quota.setTsumitateUsed(Math.max(0, quotaForm.getTsumitateUsed()));
+        quota.setGrowthUsed(Math.max(0, quotaForm.getGrowthUsed()));
+        nisaQuotaMapper.save(quota);
+        redirectAttributes.addFlashAttribute("quotaSaved", true);
+        return "redirect:/mypage";
+        }
 
     @GetMapping("/password-change")
     public String passwordChange(@AuthenticationPrincipal UserDetails principal, Model model) {
@@ -217,6 +240,11 @@ public class AppController {
                 .filter(asset -> "成長投資枠".equals(asset.getFrame()))
                 .mapToLong(AssetForm::getAcquisition)
                 .sum();
+        Optional<NisaQuota> quota = nisaQuotaMapper.findByUserEmail(principal.getUsername());
+        if (quota.isPresent()) {
+            tsum = quota.get().getTsumitateUsed();
+            gsum = quota.get().getGrowthUsed();
+        }
         int tsumPercent = (int) Math.min(100, tsum * 100 / 1_200_000);
         int gsumPercent = (int) Math.min(100, gsum * 100 / 2_400_000);
         String accountType = determineAccountType(assets);
@@ -233,6 +261,26 @@ public class AppController {
         model.addAttribute("tPercent", tsumPercent);
         model.addAttribute("gPercent", gsumPercent);
         model.addAttribute("accountType", accountType);
+    }
+
+    private NisaQuotaForm getNisaQuotaForm(String username) {
+        NisaQuotaForm form = new NisaQuotaForm();
+        Optional<NisaQuota> savedQuota = nisaQuotaMapper.findByUserEmail(username);
+        if (savedQuota.isPresent()) {
+            form.setTsumitateUsed(savedQuota.get().getTsumitateUsed());
+            form.setGrowthUsed(savedQuota.get().getGrowthUsed());
+            return form;
+        }
+        List<AssetForm> assets = assetService.listAssets(username);
+        form.setTsumitateUsed(assets.stream()
+                .filter(asset -> "つみたて投資枠".equals(asset.getFrame()))
+                .mapToLong(AssetForm::getAcquisition)
+                .sum());
+        form.setGrowthUsed(assets.stream()
+                .filter(asset -> "成長投資枠".equals(asset.getFrame()))
+                .mapToLong(AssetForm::getAcquisition)
+                .sum());
+        return form;
     }
 
     private String determineAccountType(List<AssetForm> assets) {

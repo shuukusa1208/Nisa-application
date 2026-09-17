@@ -12,3 +12,13 @@ CREATE TABLE IF NOT EXISTS assets (
     PRIMARY KEY (id),
     CONSTRAINT fk_assets_user FOREIGN KEY (user_id) REFERENCES users (id)
 );
+
+CREATE TABLE IF NOT EXISTS nisa_quotas (
+    id BIGINT NOT NULL AUTO_INCREMENT,
+    user_id BIGINT NOT NULL,
+    tsumitate_used BIGINT NOT NULL DEFAULT 0,
+    growth_used BIGINT NOT NULL DEFAULT 0,
+    PRIMARY KEY (id),
+    UNIQUE KEY uk_nisa_quotas_user (user_id),
+    CONSTRAINT fk_nisa_quotas_user FOREIGN KEY (user_id) REFERENCES users (id)
+);
