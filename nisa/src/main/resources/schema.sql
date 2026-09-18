@@ -1,5 +1,13 @@
-//このファイルはA5M2で作成したテーブルをPostgreSQL用に変換したもの。
+-- users テーブル（参照される側を最優先で作成）
+CREATE TABLE IF NOT EXISTS users (
+    id BIGSERIAL PRIMARY KEY,
+    username VARCHAR(255) NOT NULL,
+    email VARCHAR(255) NOT NULL UNIQUE,
+    password VARCHAR(255) NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
 
+-- assets テーブル
 CREATE TABLE IF NOT EXISTS assets (
     id BIGSERIAL PRIMARY KEY,
     user_id BIGINT NOT NULL,
@@ -14,6 +22,7 @@ CREATE TABLE IF NOT EXISTS assets (
     CONSTRAINT fk_assets_user FOREIGN KEY (user_id) REFERENCES users (id)
 );
 
+-- nisa_quotas テーブル
 CREATE TABLE IF NOT EXISTS nisa_quotas (
     id BIGSERIAL PRIMARY KEY,
     user_id BIGINT NOT NULL,
@@ -23,6 +32,7 @@ CREATE TABLE IF NOT EXISTS nisa_quotas (
     CONSTRAINT fk_nisa_quotas_user FOREIGN KEY (user_id) REFERENCES users (id)
 );
 
+-- password_reset_tokens テーブル
 CREATE TABLE IF NOT EXISTS password_reset_tokens (
     id BIGSERIAL PRIMARY KEY,
     token VARCHAR(100) NOT NULL,
